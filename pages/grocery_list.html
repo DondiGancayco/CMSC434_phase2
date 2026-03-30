@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List</title>
+    <link rel="stylesheet" href="..\css\grocery_list_style.css">
+    <link rel="stylesheet" href="..\css\universal_style.css">
+</head>
+
+<body>
+
+    <!--Tabs footer code based off of https://www.w3schools.com/howto/howto_js_tab_header.asp-->
+
+
+    <div id="Grocery-List" class="tabcontent">
+        <h1>Grocery List</h1>
+        <div id="user-input">
+            <input type="text" id="item-name-input" placeholder="New item name..." class="input-fields">
+            <input type="number" value="4" id="item-qty-input" class="input-fields">
+            <select name="units" id="item-units-input" class="input-fields">
+                <option value="count">count</option>
+                <option value="lbs">lbs.</option>
+                <option value="fl. oz.">fl. oz.</option>
+            </select>
+            <button onclick="addItem()" id="add-item-button" class="grocery-button">+</button>
+        </div>
+
+        <div id="items">
+        </div>
+        <script src="..\js\checklist_script.js"></script>
+    </div>
+
+
+  <!--navbar-->
+  <div id="navbar" class="fixed-navbar">
+    <button class="tablink" onclick="location.href='index.html'"id="defaultOpen">
+      <img src="..\assets\images\fridge.svg" height="70">
+      <span class="tab-label">Inventory</span>
+    </button>
+    <button class="tablink"  onclick="location.href='grocery_list.html'" >
+      <img src="..\assets\images\list.svg" height="70">
+      <span class="tab-label">Grocery List</span>
+    </button>      
+    <button class="tablink"  onclick="location.href='recipes.html'">
+      <img src="..\assets\images\recipes.svg" height="70">
+      <span class="tab-label">Recipes</span>
+    </button>
+    <button class="tablink"  onclick="location.href='meals.html'">
+      <img src="..\assets\images\meals.svg" height="70">
+      <span class="tab-label">Meals</span>
+    </button>
+    <button class="tablink"  onclick="location.href='people.html'">
+      <img src="..\assets\images\people.svg" height="70">
+      <span class="tab-label">People</span>
+    </button>
+  </div>
+
+    <script src="..\js\tabs_script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+
+ /*--------------------------------------------TAB 2 (Grocery List)----------------------------------------------------------*/
+ #direction {
+     margin: 1px;
+ }
+
+ #user-input {
+     margin-bottom: 20px;
+     height: 60px;
+     display: flex;
+ }
+
+ #items {
+     display: block;
+ }
+
+ #item-name-input{
+    width: 242px;
+ }
+
+ #item-qty-input{
+    width: 70px;
+ }
+
+ #add-item-button{
+    margin-left: 15px;
+    width: 70px;
+ }
+
+ .grocery-button{
+    font-size: 18pt;
+    background: #342066ff;
+    color: #fffbee;
+    padding: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: none;
+    border-radius: 5px;
+ }
+
+ .input-fields{
+    font-size: 18pt;
+    margin: 1px;
+    padding: 5px;
+    font-family:Arial, Helvetica, sans-serif;
+ }
+
+ .item {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     border: solid gray 1px;
+     margin-top: 10px;
+     padding:2px;
+     background-color: white;
+ }
+
+ .item>* {
+     margin: 5px;
+ }
+
+ #delete {
+     margin-left: 100px;
+     width:35px;
+ }
+
+ #left {
+    display: flex;
+ }
+
+ input[type="checkbox"] {
+    width:20px;
+    margin-right: 10px;
+ }
+
+ input[type="checkbox"]:checked+span {
+     text-decoration: line-through;
+     color: #888;
+ }

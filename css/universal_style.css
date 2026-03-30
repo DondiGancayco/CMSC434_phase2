@@ -1,0 +1,88 @@
+html,
+body {
+    height: 960px;
+    width: 640px;
+    font-size: 16pt;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fffdf8ff;
+    border: grey 2px solid;
+    border-style: dotted;
+    margin: 0%;
+    
+    background-image: url('/phase2/assets/images/bg_food.jpg');
+    background-size: cover;
+    background-repeat: no-repeat; /* Prevents the image from tiling */
+
+    
+
+    
+}
+
+h1,
+h2,
+h3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
+
+
+.fixed-navbar{
+    bottom: 0px;
+    width: 640px;
+    position: fixed;
+}
+.fixed-navbar>*{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style the tab buttons */
+.tablink {
+    height: 120px;
+    background-color: #342066ff;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 18px 16px;
+    font-size: 17px;
+    width: 20%;
+}
+
+/* Change background color of buttons on hover */
+.tablink:hover {
+    background-color: #5a3fa0;
+}
+
+/* Set default styles for tab content */
+.tabcontent {
+    height: 740px;
+    color: black;
+    padding: 50px;
+    text-align: center;
+}
+
+.tab-label {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.icon {
+    padding: 2.5px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: lightgoldenrodyellow;
+    width: 55px;
+    height: 55px;
+    margin-bottom: 5px;
+}
+.grocery-button{
+    font-size: 18pt;
+    background: #342066ff;
+    color: #fffbee;
+    padding: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: none;
+    border-radius: 5px;
+ }
