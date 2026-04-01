@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,17 @@
   <link rel="stylesheet" href="..\css\index_style.css">
   <link rel="stylesheet" href="..\css\universal_style.css">
 </head>
+
 <body>
   <div class="inventory">
     <div id="title-and-search">
       <h1>Inventory</h1>
-      
+
       <div id="search-inventory">
-      <input type="text"  placeholder="Search">
-      </div>      
+        <input type="text" placeholder="Search">
+      </div>
     </div>
-    
+
     <div id="filter-sort-add">
 
       <div id="filter-sort">
@@ -24,155 +26,137 @@
         <div id="filters">
           <label for="storage-area">Storage Area:</label>
           <select name="storage-area" id="storage-area">
-              <option value="all">All Areas</option>      
-              <option value="pantry">Pantry</option>
-              <option value="fridge">Fridge</option>
-              <option value="freezer">Freezer</option>
-              <option value="misc">Misc</option>
+            <option value="all">All Areas</option>
+            <option value="pantry">Pantry</option>
+            <option value="fridge">Fridge</option>
+            <option value="freezer">Freezer</option>
+            <option value="misc">Misc</option>
           </select>
 
           <div id="more-filters">
             <label for="more-filters">More Filters</label>
             <button id="filter-btn">
-              <img src="..\assets\svgs\filters-2-svgrepo-com.svg" alt="filter-symbol"  width="20" height="18" id="filter-symbol">
+              <img src="..\assets\svgs\filters-2-svgrepo-com.svg" alt="filter-symbol" width="20" height="18"
+                id="filter-symbol">
             </button>
           </div>
 
         </div>
-        
+
         <div id="sort">
           <label for="storage-area">Sort by:</label>
           <select name="storage-area" id="storage-ss">
-              <option value="Name (asc)">Name (asc)</option>
-              <option value="Name (dsc)">Name (dsc)</option>
-              <option value="Amount (asc)">Amount (asc)</option>
-              <option value="Amount (dsc)">Amount (dsc)</option>
+            <option value="date added (asc)">newer first</option>
+            <option value="date added (dsc)">older first</option>
+            <option value="Name (asc)">Name A-Z</option>
+            <option value="Name (dsc)">Name Z-A</option>
+            <option value="Amount (asc)">Amount (asc)</option>
+            <option value="Amount (dsc)">Amount (dsc)</option>
           </select>
         </div>
       </div><!-- end filter-sort -->
+
+      <!-- adding item -->
       <div id=add-item>
-          <button id="add-item-btn">
-            Add <br> Item
-          </button>
+        <button id="addItemBtn">
+          Add <br> Item
+        </button>
       </div>
-    </div> <!-- end filter-sort-add --> 
+      <!-- add item pop up -->
+      <div id="fadeAndAddItem" class="nothidden">
+        <div class="fade"></div>
+        <div class="AddItem">
+          <h3>Add Item</h3>
+          <label for="itemName">*Item Name:</label><input type="text"><br>
+          <label for="itemName">Amount:</label><input type="text"><br>
+          <label for="itemName">Owner:</label><input type="text"><br>
+          <label for="itemName">Expiration:</label><input type="text"><br>
+          <label for="itemName">Allergens:</label>
+          <select name="allergens">
+            <option value="None">None</option>
+            <option value="Gluten">Gluten</option>
+            <option value="Dairy">Dairy</option>
+          </select><br>
+          <label for="itemName">Diets:</label>
+          <select name="diets">
+            <option value="None">None</option>
+            <option value="vegetarian">vegetarian</option>
+            <option value="vegan">vegan</option>
+            <option value="keto">keto</option>
+          </select><br>
+          <br><br>          
+          <button id="submitBtn">Submit</button>
+          <button id="cancelBtn">Cancel</button>
+        </div>
+      </div>
     
+    </div> <!-- end filter-sort-add -->   
+
+
     <div id="items">
-    <table id="items-table">
+      <table id="items-table">
+        <tr>
+          <th></th>
+          <th class="name">Name</th>
+          <th class="amount">Amount</th>
+          <th class="expiration">Expiration</th>
+          <th></th>
+        </tr>
+        <!-- start dummy data-->
+        <tr>
+          <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg"
+                height="25"></button></td>
+          <td>Data</td>
+          <td>Data</td>
+          <td>Data</td>
+          <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg"
+                height="30"></button></td>
+        </tr>
+        <tr>
+          <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg"
+                height="25"></button></td>
+          <td>Data</td>
+          <td>Data</td>
+          <td>Data</td>
+          <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg"
+                height="30"></button></td>
+        </tr>
+          <!--end dummy data-->
 
-      <tr >
-        <th></th>
-        <th class="name">Name</th>
-        <th class="amount">Amount</th>
-        <th class="expiration">Expiration</th>
-        <th></th>
-      </tr>
-      <!-- start dummy data-->
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <tr>
-        <td class="no-border-table"><button class="edit-btn"><img src="..\assets\images\p_pencil.svg" height="25"></button></td>
-        <td>Data</td>
-        <td>Data</td>
-        <td>Data</td>
-        <td class="no-border-table"><button class="delete-btn"><img src="..\assets\images/trash.svg" height="30"></button></td>
-      </tr>
-      <!--end dummy data-->
+      </table>
 
+    </div><!-- end items -->
 
-    </table>
+  </div><!-- end inventory -->
 
-  </div><!-- end items -->  
-
-  </div><!-- end inventory -->  
-  
   
   <!--navbar-->
   <div id="navbar" class="fixed-navbar">
-    <button class="tablink" onclick="location.href='index.html'"id="defaultOpen">
+    <button class="tablink" onclick="location.href='index.html'" id="defaultOpen">
       <img src="..\assets\images\fridge.svg" height="70">
-      <span class="tab-label">Inventory</span>
+      <span class="tab-label current-tab">Inventory</span>
     </button>
-    <button class="tablink"  onclick="location.href='grocery_list.html'" >
+    <button class="tablink" onclick="location.href='grocery_list.html'">
       <img src="..\assets\images\list.svg" height="70">
       <span class="tab-label">Grocery List</span>
-    </button>      
-    <button class="tablink"  onclick="location.href='recipes.html'">
+    </button>
+    <button class="tablink" onclick="location.href='recipes.html'">
       <img src="..\assets\images\recipes.svg" height="70">
       <span class="tab-label">Recipes</span>
     </button>
-    <button class="tablink"  onclick="location.href='meals.html'">
+    <button class="tablink" onclick="location.href='meals.html'">
       <img src="..\assets\images\meals.svg" height="70">
       <span class="tab-label">Meals</span>
     </button>
-    <button class="tablink"  onclick="location.href='people.html'">
+    <button class="tablink" onclick="location.href='people.html'">
       <img src="..\assets\images\people.svg" height="70">
       <span class="tab-label">People</span>
     </button>
   </div>
 
-  <script></script>
-
 </body>
+<script src="..\js\inventory.js"></script>
+<script src="..\js\universal_script.js"></script>
+
+
 </html>

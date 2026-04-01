@@ -1,35 +1,40 @@
+:root {
+  --primary-bg: #fffdf8ff; 
+  --secondary-bg: #fffae9ff; 
+  --button-bg: #342066ff;
+  --highlight: #ffd700; 
+  --hover-button-bg: #5a3fa0;
+  --light-border: #d3d3d3;
+}
+
 html,
 body {
     height: 960px;
     width: 640px;
     font-size: 16pt;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #fffdf8ff;
-    border: grey 2px solid;
-    border-style: dotted;
+    background-color: var(--primary-bg);
     margin: 0%;
     
-    background-image: url('/phase2/assets/images/bg_food.jpg');
+    background-image: url('../assets/images/bg_food.jpg');
     background-size: cover;
-    background-repeat: no-repeat; /* Prevents the image from tiling */
-
-    
-
-    
+    background-repeat: no-repeat;
 }
 
-h1,
-h2,
-h3{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    
+body{    
+    border: grey 2px;
+    border-style: dotted;
 }
 
+h1,h2,h3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
+}
 
 .fixed-navbar{
-    bottom: 0px;
+    top: 840px;
     width: 640px;
     position: fixed;
+    z-index: 20;
 }
 .fixed-navbar>*{
     display: flex;
@@ -52,7 +57,7 @@ h3{
 
 /* Change background color of buttons on hover */
 .tablink:hover {
-    background-color: #5a3fa0;
+    background-color: var(--hover-button-bg);
 }
 
 /* Set default styles for tab content */
@@ -65,6 +70,9 @@ h3{
 
 .tab-label {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.current-tab{
+    color: var(--highlight);
 }
 
 .icon {
@@ -79,7 +87,7 @@ h3{
 }
 .grocery-button{
     font-size: 18pt;
-    background: #342066ff;
+    background: var(--button-bg);
     color: #fffbee;
     padding: 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;

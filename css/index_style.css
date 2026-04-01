@@ -1,8 +1,15 @@
 
 
- /*----------------------------------------------*/
+ :root {
+  --primary-bg: #fffdf8ff; 
+  --secondary-bg: #fffae9ff; 
+  --button-bg: #342066ff;
+  --highlight: #ffd700; 
+  --hover-button-bg: #5a3fa0;
+  --light-border: #d3d3d3;
+}
+
 .inventory{
-    /*border: solid grey;*/
     padding: 15px;
 }
 h1{
@@ -23,14 +30,12 @@ h1{
     align-items: center;
 }
 #filter-sort-add{
-    border: lightgrey 3px solid;
     border-radius: 10px;
     display: inline-flex;
     justify-content: space-between;
     width: 96.7%;
     padding: 10px;
     margin-top: 15px;
-    background-color: #fffae9ff;
 }
 #sort{
     margin-top: 10px;
@@ -38,7 +43,7 @@ h1{
 #more-filters{
     margin-left: 25px;
 }
-#add-item-btn,select, #filter-btn{
+#addItemBtn,select, #filter-btn{
     border-radius: 4px;
     font-size: .7rem;
     font-family: Arial, sans-serif;
@@ -52,16 +57,17 @@ h1{
     padding-left: 10px;
 
 }
-#add-item-btn{
+#addItemBtn{
     height: 70px;
     width: 70px;
-    color: #fffdf8ff;
-    background-color: #342066ff;
-
+    color: var(--primary-bg);
+    background-color: var(--button-bg);
+}
+#filter-sort-add, #items{
+    border: var(--light-border) 3px solid;
+    background-color: var(--secondary-bg);
 }
 #items{
-    border: solid lightgray 3px; 
-    background-color: #fffae9ff ;
     border-radius: 10px;
     margin-top: 20px;
     overflow-y: auto;
@@ -70,12 +76,11 @@ h1{
     padding-top: 15px
 }
 td {
-  border: 2px solid lightgray; /* Applies a 1px solid black border to all cells */
-  padding: 8px; /* Optional: Adds space within cells */
+  border: 2px solid var(--light-border);
+  padding: 8px; 
   margin: 0px;
-  text-align: left; /* Optional: Aligns text to the left */
+  text-align: left; 
 }
-
 
 .no-border-table{
     border: none;
@@ -106,6 +111,24 @@ td {
 th{
     text-align: left;
 }
-input{
+
+#search-inventory>input{
     font-size: 16px;
+}
+
+.hidden { 
+    display: none !important; 
+}
+
+.fade {
+    position: fixed; top: 0; left: 0; width: 640px; height: 960px;
+    background: rgba(0, 0, 0, 0.5); z-index: 10;
+}
+
+.AddItem {
+    border: solid black 3px;
+    position: fixed; top: 20%; left: 120px;
+    width: 384px;
+    background: white; padding: 20px;
+    border-radius: 5px; z-index:11;
 }

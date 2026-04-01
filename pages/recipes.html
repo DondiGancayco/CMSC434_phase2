@@ -15,7 +15,7 @@
     </div>   
   <!--navbar-->
   <div id="navbar" class="fixed-navbar">
-    <button class="tablink" onclick="location.href='index.html'"id="defaultOpen">
+    <button class="tablink" onclick="location.href='index.html; highlightTab()' "id="defaultOpen">
       <img src="..\assets\images\fridge.svg" height="70">
       <span class="tab-label">Inventory</span>
     </button>
@@ -25,7 +25,7 @@
     </button>      
     <button class="tablink"  onclick="location.href='recipes.html'">
       <img src="..\assets\images\recipes.svg" height="70">
-      <span class="tab-label">Recipes</span>
+      <span class="tab-label current-tab">Recipes</span>
     </button>
     <button class="tablink"  onclick="location.href='meals.html'">
       <img src="..\assets\images\meals.svg" height="70">
@@ -33,10 +33,12 @@
     </button>
     <button class="tablink"  onclick="location.href='people.html'">
       <img src="..\assets\images\people.svg" height="70">
-      <span class="tab-label">People</span>
+      <span class="tab-label ">People</span>
     </button>
   </div>
 
 </body>
+
+<script src="universal_script.js"></script>
 
 </html>
