@@ -24,6 +24,7 @@
       <div id="filter-sort">
 
         <div id="filters">
+          <!--
           <label for="storage-area">Storage Area:</label>
           <select name="storage-area" id="storage-area">
             <option value="all">All Areas</option>
@@ -32,11 +33,12 @@
             <option value="freezer">Freezer</option>
             <option value="misc">Misc</option>
           </select>
+          -->
 
           <div id="more-filters">
-            <label for="more-filters">More Filters</label>
+            <label for="more-filters" id="filters">Filters:</label>
             <button id="filter-btn">
-              <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="20" height="18"
+              <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="35" height="30"
                 id="filter-symbol">
             </button>
           </div>
@@ -60,32 +62,49 @@
       <div id=add-item>
         <button type="button" id="clearInventoryBtn">Clear</button>
         <button id="addItemBtn">
-          Add <br> Item
+            Add <br> Item
         </button>
       </div>
       <!-- add item pop up -->
       <div id="fadeAndAddItem" class="hidden">
         <div class="fade"></div>
         <div class="AddItem">
-          <h3>Add Item</h3>
+          <h3><u>Add Item</u></h3>
+
           <form id="addItemForm">
-            <label for="itemName">*Item Name:</label><input type="text" id="toAddName"><br>
-            <label for="area">Storage Area:</label>
-            <select name="area" id="toAddArea">
-              <option value="None">None</option>  
-              <option value="Pantry">Pantry</option>  
-              <option value="Fridge">Fridge</option>
-              <option value="Freezer">Freezer</option>
-              <option value="Misc">Misc</option>
-            </select><br>
-            <label for="amount">Amount:</label><input type="text" id="toAddAmount"><br>
-            <label for="owner">Owner:</label><input type="text" id="toAddOwner"><br>
-            <label for="expiration">Expiration:</label><input type="text" id="toAddExpiration"><br>
-            <label for="Allergens">Allergens:</label><input type="text" id="toAddAllergens"><br>
-            <label for="Diets">Diets:</label><input type="text" id="toAddDiets"><br>
+            <div class="add-item-row" style="margin-bottom: 30px;">
+              <label for="toAddName">Name:</label>
+              <input type="text" id="toAddName" placeholder="required">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddAmount">Amount:</label>
+              <input type="text" id="toAddAmount" placeholder="optional, e.g. 5ct, 3.5lb, 2gal...">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddOwner">Owner:</label>
+              <input type="text" id="toAddOwner" placeholder="optional">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddExpiration">Expiration:</label>
+              <input type="text" id="toAddExpiration"placeholder="optional, e.g. 06/01/2026">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddAllergens">Allergens:</label>
+              <input type="text" id="toAddAllergens" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddDiets">Diets:</label>
+              <input type="text" id="toAddDiets" placeholder="optional, separate multiple values with commas">
+            </div>
             <br>
-            <button type="button" id="submitBtn">Submit</button>
-            <button type="button" id="cancelBtn">Cancel</button>
+            <br>
+
+            <div class="add-item-actions">
+              <button type="button" id="cancelBtn">Cancel</button>
+              <button type="button" id="submitBtn">Submit</button>
+            </div>
+            <div id="require-name-error" class="hidden require-name-error"><em>Item name is required before submitting</em></div>
+            <br>
           </form>
         </div>
       </div>    
@@ -95,31 +114,12 @@
     <div id="items">
       <table id="items-table">
         <tr>
-          <th></th>
-          <th class="name">Name</th>
+          <th class="name-cell">Name</th>
           <th class="amount">Amount</th>
           <th class="expiration">Expiration</th>
           <th></th>
         </tr>
         <!-- start dummy data-->
-        <tr>
-          <td class="no-border-table"><button class="edit-btn"><img src="../assets/images/p_pencil.svg"
-                height="25"></button></td>
-          <td>Data</td>
-          <td>Data</td>
-          <td>Data</td>
-          <td class="no-border-table"><button class="delete-btn"><img src="../assets/images/trash.svg"
-                height="30"></button></td>
-        </tr>
-        <tr>
-          <td class="no-border-table"><button class="edit-btn"><img src="../assets/images/p_pencil.svg"
-                height="25"></button></td>
-          <td>Data</td>
-          <td>Data</td>
-          <td>Data</td>
-          <td class="no-border-table"><button class="delete-btn"><img src="../assets/images/trash.svg"
-                height="30"></button></td>
-        </tr>
           <!--end dummy data-->
 
       </table>

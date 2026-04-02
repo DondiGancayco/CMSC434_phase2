@@ -1,20 +1,6 @@
 const form = document.getElementById('addItemForm');
 const table = document.getElementById('items-table');
 
-// async function loadJSON() {
-//   try {
-//     const response = await fetch('./inventory.json');
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! status: ${response.status}`);
-//     }
-//     inventory = await response.json();
-//     console.log('Data loaded:', inventory);
-//   } catch (error) {
-//     console.error('Could not load JSON file:', error);
-//   }
-// }
-// document.addEventListener("DOMContentLoaded", (event) => loadJSON());
-
 /** Always returns an array (handles legacy localStorage that stored one object instead of an array). */
 function getInventoryArray() {
     const raw = localStorage.getItem('inventory');
@@ -34,11 +20,21 @@ const clearInventoryBtn = document.getElementById('clearInventoryBtn');
 const addItemBtn = document.getElementById('addItemBtn');
 const submitBtn = document.getElementById('submitBtn');
 const cancelBtn = document.getElementById('cancelBtn');
+const toAddNameInput = document.getElementById('toAddName');
+const requireNameError = document.getElementById('require-name-error');
+
+const hideRequireNameError = () => requireNameError.classList.add('hidden');
+const showRequireNameError = () => requireNameError.classList.remove('hidden');
+
 clearInventoryBtn.addEventListener('click', () => {
     localStorage.removeItem('inventory');
     displayData();
 });
-addItemBtn.addEventListener('click', () => fadeAndAddItem.classList.remove('hidden'));
+addItemBtn.addEventListener('click', () => {
+    fadeAndAddItem.classList.remove('hidden');
+    // Focus after the overlay is visible (hidden inputs may not take focus synchronously)
+    requestAnimationFrame(() => toAddNameInput.focus());
+});
 
 const closeAddItem = () => {
     fadeAndAddItem.classList.add('hidden');
@@ -48,12 +44,39 @@ cancelBtn.addEventListener('click', closeAddItem);
 
 form.addEventListener('submit', (e) => e.preventDefault());
 
+const addItemFieldOrder = [
+    'toAddName',
+    'toAddAmount',
+    'toAddOwner',
+    'toAddExpiration',
+    'toAddAllergens',
+    'toAddDiets'
+];
+
+form.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const id = e.target.id;
+    const idx = addItemFieldOrder.indexOf(id);
+    if (idx === -1) return;
+    e.preventDefault();
+    if (idx < addItemFieldOrder.length - 1) {
+        document.getElementById(addItemFieldOrder[idx + 1]).focus();
+    }
+});
+
 submitBtn.addEventListener('click', addItem);
 
+toAddNameInput.addEventListener('input', hideRequireNameError);
+
 function addItem() {
+    const nameValue = document.getElementById('toAddName').value.trim();
+    if (nameValue === '') {
+        showRequireNameError();
+        return;
+    }
+
     const newItem = {
-        name: document.getElementById('toAddName').value,
-        area: document.getElementById('toAddArea').value,
+        name: nameValue,
         amount: document.getElementById('toAddAmount').value,
         owner: document.getElementById('toAddOwner').value,
         expiration: document.getElementById('toAddExpiration').value,
@@ -75,7 +98,6 @@ function displayData() {
     const storedData = getInventoryArray();
     table.innerHTML = `
         <tr>
-          <th></th>
           <th class="name">Name</th>
           <th class="amount">Amount</th>
           <th class="expiration">Expiration</th>
@@ -83,20 +105,34 @@ function displayData() {
         </tr>
     `;
 
-    storedData.forEach(item => {
+    storedData.forEach((item, index) => {
         const row = `
-        <tr>
-          <td class="no-border-table"><button class="edit-btn"><img src="../assets/images/p_pencil.svg"
-                height="25" alt="Edit"></button></td>
-          <td>${item.name}</td>
+        <tr data-row-index="${index}">
+          <td class="name-cell">${item.name}</td>
           <td>${item.amount}</td>
           <td>${item.expiration}</td>
-          <td class="no-border-table"><button class="delete-btn"><img src="../assets/images/trash.svg"
-                height="30" alt="Delete"></button></td>
+          <td class="no-border-table"><button type="button" class="delete-btn"><img class="delete-icon" src="../assets/images/trash.svg"
+                alt="Delete"></button></td>
         </tr>        
         `;
         table.innerHTML += row;
     });
 }
+
+// clicking on trash can to delete row
+table.addEventListener('click', (e) => {
+    const btn = e.target.closest('.delete-btn');
+    if (!btn) return;
+    const tr = btn.closest('tr');
+    if (!tr || tr.dataset.rowIndex === undefined) return;
+    const inv = getInventoryArray();
+    const idx = Number(tr.dataset.rowIndex);
+    const target = inv[idx];
+    if (target === undefined) return;
+    const signature = JSON.stringify(target);
+    const next = inv.filter((item) => JSON.stringify(item) !== signature);
+    localStorage.setItem('inventory', JSON.stringify(next));
+    displayData();
+});
 
 displayData();
