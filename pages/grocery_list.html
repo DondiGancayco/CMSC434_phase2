@@ -2,55 +2,86 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grocery List</title>
-    <link rel="stylesheet" href="..\css\grocery_list_style.css">
-    <link rel="stylesheet" href="..\css\universal_style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grocery List</title>
+  <link rel="stylesheet" href="..\css\grocery_list_style.css">
+  <link rel="stylesheet" href="..\css\universal_style.css">
 </head>
 
 <body>
 
-    <!--Tabs footer code based off of https://www.w3schools.com/howto/howto_js_tab_header.asp-->
+  <!--Tabs footer code based off of https://www.w3schools.com/howto/howto_js_tab_header.asp-->
 
 
-    <div id="Grocery-List" class="tabcontent">
-        <h1>Grocery List</h1>
-        <div id="user-input">
-            <input type="text" id="item-name-input" placeholder="New item name..." class="input-fields">
-            <input type="number" value="4" id="item-qty-input" class="input-fields">
-            <select name="units" id="item-units-input" class="input-fields">
-                <option value="count">count</option>
-                <option value="lbs">lbs.</option>
-                <option value="fl. oz.">fl. oz.</option>
-            </select>
-            <button onclick="addItem()" id="add-item-button" class="grocery-button">+</button>
-        </div>
-
-        <div id="items">
-        </div>
+  <div id="Grocery-List" class="tabcontent">
+    <div class="list-tabs">
+      <button class="listlink" onclick="openTab('My List', this, 'my-list-marker')" id="defaultOpen">
+        <span class="tab-label">My List</span>
+        <div id="my-list-marker" class="current-tab-marker"></div>
+      </button>
+      <button class="listlink" onclick="openTab('Spring Harvest', this, 'spring-harvest-marker')">
+        <span class="tab-label">Spring Harvest</span>
+        <div id="spring-harvest-marker" class="current-tab-marker"></div>
+      </button>
+      <button class="listlink" id="newlist-button" onclick="newListMenu()">
+        <span class="tab-label">+ New List</span>
+        <div id="new-list-marker" class="current-tab-marker"></div>
+      </button>
     </div>
+
+    <div id="grocery-list" class="listcontent">
+
+      <h1 id="list-title">Grocery List</h1>
+      <div id="user-input">
+        <input type="text" id="item-name-input" placeholder="New item name..." class="input-fields">
+        <input type="number" value="4" id="item-qty-input" class="input-fields">
+        <select name="units" id="item-units-input" class="input-fields">
+          <option value="count">count</option>
+          <option value="lbs">lbs.</option>
+          <option value="fl. oz.">fl. oz.</option>
+        </select>
+        <button onclick="addItem()" id="add-item-button" class="grocery-button">+</button>
+      </div>
+
+      <div id="items">
+      </div>
+    </div>
+  </div>
+
+  <!--Add list popup code base on https://www.w3schools.com/howto/howto_css_modals.asp -->
+
+  <!-- The Modal -->
+  <div id="new-list-menu" class="modal">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close" onclick="closeNewListMenu()">&times;</span>
+      <h2>Create New List</h2>
+      <input type="text" placeholder="New list name..." id="list-name-input" class="input-fields">
+      <button onclick="createNewList()" id="add-list-button" class="grocery-button">Save</button>
+    </div>
+  </div>
 
 
   <!--navbar-->
   <div id="navbar" class="fixed-navbar">
-    <button class="tablink" onclick="location.href='index.html'"id="defaultOpen">
+    <button class="tablink" onclick="location.href='index.html'" id="defaultOpen">
       <img src="..\assets\images\fridge.svg" height="70">
       <span class="tab-label">Inventory</span>
     </button>
-    <button class="tablink"  onclick="location.href='grocery_list.html'" >
+    <button class="tablink" onclick="location.href='grocery_list.html'">
       <img src="..\assets\images\list.svg" height="70">
       <span class="tab-label current-tab">Grocery List</span>
-    </button>      
-    <button class="tablink"  onclick="location.href='recipes.html'">
+    </button>
+    <button class="tablink" onclick="location.href='recipes.html'">
       <img src="..\assets\images\recipes.svg" height="70">
       <span class="tab-label">Recipes</span>
     </button>
-    <button class="tablink"  onclick="location.href='meals.html'">
+    <button class="tablink" onclick="location.href='meals.html'">
       <img src="..\assets\images\meals.svg" height="70">
       <span class="tab-label">Meals</span>
     </button>
-    <button class="tablink"  onclick="location.href='people.html'">
+    <button class="tablink" onclick="location.href='people.html'">
       <img src="..\assets\images\people.svg" height="70">
       <span class="tab-label">People</span>
     </button>
