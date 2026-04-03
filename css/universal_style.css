@@ -26,7 +26,7 @@ body{
     border-style: dotted;
 }
 
-h1,h2,h3{
+h1,h2,h3,label{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;    
 }
 
