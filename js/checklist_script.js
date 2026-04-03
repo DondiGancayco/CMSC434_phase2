@@ -1,12 +1,15 @@
-let pairList = {
+/*let pairList = {
     "My List" : [["Apples", 1, "count", false], ["Siracha Sauce", 8, "fl. oz.", false], ["Flour", 2, "lbs.", false]],
     "Spring Harvest" : [["Apples", 1, "count", false], ["Juice", 2, "fl. oz.", false],],
 
-};
+};*/
+
+
+
 let currList = "Spring Harvest";
 reDisplay();
 
-function addItem() {
+function addItemFromUserInput() {
     const text = document.getElementById("item-name-input").value;
     const qty = document.getElementById("item-qty-input").value;
     const units = document.getElementById("item-units-input").value;
@@ -14,14 +17,19 @@ function addItem() {
     if (!text || text == "" || !qty) {
         return;
     }
-    pairList[currList].push([text, qty, units, false]);
-    console.log(`added: ${text} ${qty} ${units}`)
+    
+    addItem(text, qty, units);
     reDisplay();
 
     document.getElementById("item-name-input").value = "";
     document.getElementById("item-qty-input").value = "";
     document.getElementById("item-units-input").value = "";
     
+}
+
+function addItem(text, qty, units){
+    pairList[currList].push([text, qty, units, false]);
+    console.log(`added: ${text} ${qty} ${units}`)
 }
 
 function reDisplay() {
