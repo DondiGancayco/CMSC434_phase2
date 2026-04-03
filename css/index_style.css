@@ -93,6 +93,28 @@ h1{
 #items-table td.no-border-table{
     vertical-align: middle;
 }
+
+#items-table tr:has(td.hover-to-edit:hover) td.hover-to-edit{
+    background-color: lightgoldenrodyellow;
+}
+
+#items-table .rightmost-cell .edit-row-hint{
+    display: none;
+}
+
+#items-table .rightmost-cell .delete-btn-wrap{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#items-table tr:has(td.hover-to-edit:hover) .rightmost-cell .edit-row-hint{
+    display: inline;
+}
+
+#items-table .rightmost-cell{
+    white-space: nowrap;
+}
 td {
   border: 2px solid var(--light-border);
   padding: 8px; 
@@ -103,20 +125,14 @@ td {
 .no-border-table{
     border: none;
 }
-.name{
-    width:225px;
-}
 .name-cell{
-    width: 225px;
+    width: 365px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .amount{
     width: 170px;
-}
-.expiration{
-    width: 120px;
 }
 .edit-btn, .delete-btn{
     width: 30px;
@@ -126,9 +142,6 @@ td {
     align-items: center;
     justify-content: center;
     vertical-align: middle;
-    /*
-    border-radius: 50px;
-    border: #342066ff 2px solid;*/
     border: none;
     background-color: transparent;
     padding: 0px;
@@ -142,7 +155,6 @@ td {
     transition: transform 0.15s ease;
 }
 .delete-icon:hover{
-    /* Same visual as 25px height, but layout box stays 30px so table row height does not jump */
     transform: scale(calc(25 / 30));
 }
 th{
@@ -155,6 +167,21 @@ th{
 
 .hidden { 
     display: none !important; 
+}
+
+.edit-row-tooltip{
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    background: #333;
+    color: #fff;
+    font-size: 13px;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .require-name-error{
@@ -176,17 +203,20 @@ th{
     border-radius: 5px; z-index:11;
 }
 
-#addItemForm .add-item-row{
+#addItemForm .add-item-row,
+#editItemForm .add-item-row{
     display: flex;
     align-items: center;
     margin-bottom: 8px;
 }
 
-#addItemForm .add-item-row label{
+#addItemForm .add-item-row label,
+#editItemForm .add-item-row label{
     width: 105px;
 }
 
-#addItemForm .add-item-row input{
+#addItemForm .add-item-row input,
+#editItemForm .add-item-row input{
     flex: 1;
     box-sizing: border-box;
     font-size: 14pt;
@@ -197,24 +227,28 @@ th{
     border: 1px solid var(--light-border);
 }
 
-#addItemForm input::placeholder{
+#addItemForm input::placeholder,
+#editItemForm input::placeholder{
     font-style: italic;
     font-size: 14pt;
 }
 
-#addItemForm .add-item-actions button{
+#addItemForm .add-item-actions button,
+#editItemForm .add-item-actions button{
     font-size: 14pt;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--light-border);
 }
-#submitBtn{
+#submitBtn,
+#submitEditBtn{
     background-color: var(--button-bg);
     color: white;
     font-weight: bold;
 }
 
-#addItemForm .add-item-actions{
+#addItemForm .add-item-actions,
+#editItemForm .add-item-actions{
     margin-top: 12px;
 }
 

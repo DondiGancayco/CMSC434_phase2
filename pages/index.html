@@ -15,16 +15,15 @@
       <h1>Inventory</h1>
 
       <div id="search-inventory">
-        <input type="text" placeholder="Search">
+        <input type="text" id="to-search" placeholder="Search">
       </div>
     </div>
 
     <div id="filter-sort-add">
 
       <div id="filter-sort">
-
+        <!--
         <div id="filters">
-          <!--
           <label for="storage-area">Storage Area:</label>
           <select name="storage-area" id="storage-area">
             <option value="all">All Areas</option>
@@ -33,9 +32,8 @@
             <option value="freezer">Freezer</option>
             <option value="misc">Misc</option>
           </select>
-          -->
 
-          <div id="more-filters">
+          <div id="more-filters" class="hidden">
             <label for="more-filters" id="filters">Filters:</label>
             <button id="filter-btn">
               <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="35" height="30"
@@ -44,25 +42,24 @@
           </div>
 
         </div>
+      -->
 
         <div id="sort">
-          <label for="storage-area">Sort by:</label>
-          <select name="storage-area" id="storage-ss">
-            <option value="date added (asc)">newer first</option>
-            <option value="date added (dsc)">older first</option>
-            <option value="Name (asc)">Name A-Z</option>
-            <option value="Name (dsc)">Name Z-A</option>
-            <option value="Amount (asc)">Amount (asc)</option>
-            <option value="Amount (dsc)">Amount (dsc)</option>
-          </select>
+          <label for="inventory-sort">Sort by:</label>
+          <select id="inventory-sort" name="sort">
+            <option value="newer first" selected>newer first</option>
+            <option value="older first">older first</option>
+            <option value="Name A-Z">Name A-Z</option>
+            <option value="Name Z-A">Name Z-A</option>
+          </select> 
         </div>
       </div><!-- end filter-sort -->
 
       <!-- adding item -->
       <div id=add-item>
-        <button type="button" id="clearInventoryBtn">Clear</button>
+        <button type="button" id="clearInventoryBtn" class="hidden">Clear</button>
         <button id="addItemBtn">
-            Add <br> Item
+            Add Item
         </button>
       </div>
       <!-- add item pop up -->
@@ -107,7 +104,48 @@
             <br>
           </form>
         </div>
-      </div>    
+      </div>
+      <!-- edit item pop up -->
+      <div id="fadeAndEditItem" class="hidden">
+        <div class="fade"></div>
+        <div class="AddItem">
+          <h3><u>Edit Item</u></h3>
+          <form id="editItemForm">
+            <div class="add-item-row" style="margin-bottom: 30px;">
+              <label for="toEditName">Name:</label>
+              <input type="text" id="toEditName" placeholder="required">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditAmount">Amount:</label>
+              <input type="text" id="toEditAmount" placeholder="optional, e.g. 5ct, 3.5lb, 2gal...">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditOwner">Owner:</label>
+              <input type="text" id="toEditOwner" placeholder="optional">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditExpiration">Expiration:</label>
+              <input type="text" id="toEditExpiration" placeholder="optional, e.g. 06/01/2026">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditAllergens">Allergens:</label>
+              <input type="text" id="toEditAllergens" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditDiets">Diets:</label>
+              <input type="text" id="toEditDiets" placeholder="optional, separate multiple values with commas">
+            </div>
+            <br>
+            <br>
+            <div class="add-item-actions">
+              <button type="button" id="cancelEditBtn">Cancel</button>
+              <button type="button" id="submitEditBtn">Save</button>
+            </div>
+            <div id="require-name-error-edit" class="hidden require-name-error"><em>Item name is required before saving</em></div>
+            <br>
+          </form>
+        </div>
+      </div>
     </div> <!-- end filter-sort-add -->   
 
 
@@ -116,12 +154,8 @@
         <tr>
           <th class="name-cell">Name</th>
           <th class="amount">Amount</th>
-          <th class="expiration">Expiration</th>
           <th></th>
         </tr>
-        <!-- start dummy data-->
-          <!--end dummy data-->
-
       </table>
     </div><!-- end items -->
 
@@ -151,6 +185,8 @@
       <span class="tab-label">People</span>
     </button>
   </div>
+
+  <div id="edit-row-tooltip" class="hidden edit-row-tooltip" role="tooltip">click to edit row and view details</div>
 
 </body>
 <script src="../js/inventory.js"></script>
