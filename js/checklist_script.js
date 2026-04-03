@@ -1,12 +1,12 @@
-/*let pairList = {
+let pairList = {
     "My List" : [["Apples", 1, "count", false], ["Siracha Sauce", 8, "fl. oz.", false], ["Flour", 2, "lbs.", false]],
     "Spring Harvest" : [["Apples", 1, "count", false], ["Juice", 2, "fl. oz.", false],],
 
-};*/
+};
 
 
 
-let currList = "Spring Harvest";
+let currList = "My List";
 reDisplay();
 
 function addItemFromUserInput() {
@@ -17,8 +17,8 @@ function addItemFromUserInput() {
     if (!text || text == "" || !qty) {
         return;
     }
-    
-    addItem(text, qty, units);
+
+    addItem(currList,text, qty, units);
     reDisplay();
 
     document.getElementById("item-name-input").value = "";
@@ -27,8 +27,8 @@ function addItemFromUserInput() {
     
 }
 
-function addItem(text, qty, units){
-    pairList[currList].push([text, qty, units, false]);
+function addItem(listname, text, qty, units){
+    pairList[listname].push([text, qty, units, false]);
     console.log(`added: ${text} ${qty} ${units}`)
 }
 
