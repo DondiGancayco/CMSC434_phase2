@@ -1,0 +1,23 @@
+"7 distinct moderate or better tasks with at least 
+2 being deep tasks, and another 
+3 distinct shallow or better tasks, 
+across 3 or 4 feature sets"
+
+inventory:
+    tasks:
+        add item: deep
+        search: deep
+        edit item: moderate
+        sort: moderate
+        delete item: shallow
+    
+    design elements
+        rows are responsive for edit; highlight and tooltip
+        trashcan mimcs a semi-pressed button on hover
+        extra details of expirationdata, owner, etc are hidden as to not crowd table and overload user with info
+        add item and tabs get highlighted when hovered
+        gestalt spacing to differentiate required vs optional fields for added food item
+        dynamic carriage return focus thing makes it convenient; less clicking
+        pop ups for add and edit items darkens background so that the focus is shifted to the new form only
+
+
