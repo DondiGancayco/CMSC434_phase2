@@ -16,13 +16,9 @@
 
   <div id="Grocery-List" class="tabcontent">
     <div class="list-tabs">
-      <button class="listlink" onclick="openTab('My List', this, 'my-list-marker')" id="defaultOpen">
+      <button id = "My List-button" class="listlink" onclick="openTab('My List', 'My List-marker')">
         <span class="tab-label">My List</span>
-        <div id="my-list-marker" class="current-tab-marker"></div>
-      </button>
-      <button class="listlink" onclick="openTab('Spring Harvest', this, 'spring-harvest-marker')">
-        <span class="tab-label">Spring Harvest</span>
-        <div id="spring-harvest-marker" class="current-tab-marker"></div>
+        <div id="My List-marker" class="current-tab-marker"></div>
       </button>
       <button class="listlink" id="newlist-button" onclick="newListMenu()">
         <span class="tab-label">+ New List</span>
