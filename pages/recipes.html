@@ -2,43 +2,168 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
-    <link rel="stylesheet" href="..\css\recipes_style.css">
-    <link rel="stylesheet" href="..\css\universal_style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes</title>
+  <link rel="stylesheet" href="../css/recipes_style.css">
+  <link rel="stylesheet" href="../css/universal_style.css">
 </head>
 
 <body>
-    <div class="tabcontent">
-    <h1>Recipes</h1> 
-    </div>   
-  <!--navbar-->
+  <div class="inventory">
+    <div id="title-and-search">
+      <h1>Recipes</h1>
+
+      <div id="search-inventory">
+        <input type="text" id="to-search" placeholder="Search">
+      </div>
+    </div>
+
+    <div id="filter-sort-add">
+
+      <div id="filter-sort">
+        <div id="sort">
+          <label for="recipe-sort">Sort by:</label>
+          <select id="recipe-sort" name="sort">
+            <option value="newer first" selected>newer first</option>
+            <option value="older first">older first</option>
+            <option value="Name A-Z">Name A-Z</option>
+            <option value="Name Z-A">Name Z-A</option>
+          </select>
+        </div>
+      </div><!-- end filter-sort -->
+
+      <div id="add-item">
+        <button type="button" id="clearRecipesBtn" class="hidden">Clear</button>
+        <button type="button" id="addItemBtn">Add Recipe</button>
+      </div>
+
+      <div id="fadeAndAddItem" class="nohidden">
+        <div class="fade"></div>
+        <div class="AddItem">
+          <h3><u>Add Recipe</u></h3>
+          <form id="addItemForm">
+            <div class="add-item-row" style="margin-bottom: 16px;">
+              <label for="toAddName">Name:</label>
+              <input type="text" id="toAddName" placeholder="required">
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toAddDescription">Description:</label>
+              <textarea id="toAddDescription" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toAddIngredients">Ingredients:</label>
+              <textarea id="toAddIngredients" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toAddSteps">Steps:</label>
+              <textarea id="toAddSteps" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row">
+              <label for="toAddAllergens">Allergens:</label>
+              <input type="text" id="toAddAllergens" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddDiets">Diets:</label>
+              <input type="text" id="toAddDiets" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toAddRating">Rating:</label>
+              <input type="text" id="toAddRating" placeholder="optional">
+            </div>
+
+            <div class="add-item-actions">
+              <button type="button" id="cancelBtn">Cancel</button>
+              <button type="button" id="submitBtn">Submit</button>
+            </div>
+            <div id="require-name-error" class="hidden require-name-error"><em>Recipe name is required before submitting</em></div>
+          </form>
+        </div>
+      </div>
+
+      <div id="fadeAndEditItem" class="hidden">
+        <div class="fade"></div>
+        <div class="AddItem">
+          <h3><u>Edit Recipe</u></h3>
+          <form id="editItemForm">
+            <div class="add-item-row" style="margin-bottom: 16px;">
+              <label for="toEditName">Name:</label>
+              <input type="text" id="toEditName" placeholder="required">
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toEditDescription">Description:</label>
+              <textarea id="toEditDescription" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toEditIngredients">Ingredients:</label>
+              <textarea id="toEditIngredients" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row add-item-row-stacked">
+              <label for="toEditSteps">Steps:</label>
+              <textarea id="toEditSteps" rows="3" placeholder="optional"></textarea>
+            </div>
+            <div class="add-item-row">
+              <label for="toEditAllergens">Allergens:</label>
+              <input type="text" id="toEditAllergens" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditDiets">Diets:</label>
+              <input type="text" id="toEditDiets" placeholder="optional, separate multiple values with commas">
+            </div>
+            <div class="add-item-row">
+              <label for="toEditRating">Rating:</label>
+              <input type="text" id="toEditRating" placeholder="optional">
+            </div>
+
+            <div class="add-item-actions">
+              <button type="button" id="cancelEditBtn">Cancel</button>
+              <button type="button" id="submitEditBtn">Save</button>
+            </div>
+            <div id="require-name-error-edit" class="hidden require-name-error"><em>Recipe name is required before saving</em></div>
+          </form>
+        </div>
+      </div>
+    </div><!-- end filter-sort-add -->
+
+    <div id="items">
+      <table id="items-table">
+        <tr>
+          <th class="name-cell">Name</th>
+          <th class="rating-col">Rating</th>
+          <th></th>
+        </tr>
+      </table>
+    </div><!-- end items -->
+
+  </div><!-- end inventory -->
+
   <div id="navbar" class="fixed-navbar">
-    <button class="tablink" onclick="location.href='index.html' "id="defaultOpen">
-      <img src="..\assets\images\fridge.svg" height="70">
+    <button class="tablink" onclick="location.href='index.html'" id="defaultOpen">
+      <img src="../assets/images/fridge.svg" height="70">
       <span class="tab-label">Inventory</span>
     </button>
-    <button class="tablink"  onclick="location.href='grocery_list.html'" >
-      <img src="..\assets\images\list.svg" height="70">
+    <button class="tablink" onclick="location.href='grocery_list.html'">
+      <img src="../assets/images/list.svg" height="70">
       <span class="tab-label">Grocery List</span>
-    </button>      
-    <button class="tablink"  onclick="location.href='recipes.html'">
-      <img src="..\assets\images\recipes.svg" height="70">
+    </button>
+    <button class="tablink" onclick="location.href='recipes.html'">
+      <img src="../assets/images/recipes.svg" height="70">
       <span class="tab-label current-tab">Recipes</span>
     </button>
-    <button class="tablink"  onclick="location.href='meals.html'">
-      <img src="..\assets\images\meals.svg" height="70">
+    <button class="tablink" onclick="location.href='meals.html'">
+      <img src="../assets/images/meals.svg" height="70">
       <span class="tab-label">Meals</span>
     </button>
-    <button class="tablink"  onclick="location.href='people.html'">
-      <img src="..\assets\images\people.svg" height="70">
-      <span class="tab-label ">People</span>
+    <button class="tablink" onclick="location.href='people.html'">
+      <img src="../assets/images/people.svg" height="70">
+      <span class="tab-label">People</span>
     </button>
   </div>
 
-</body>
+  <div id="edit-row-tooltip" class="hidden edit-row-tooltip" role="tooltip">click to edit row</div>
 
-<script src="universal_script.js"></script>
+  <script src="../js/recipes.js"></script>
+  <script src="../js/universal_script.js"></script>
+</body>
 
 </html>

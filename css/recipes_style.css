@@ -1,0 +1,287 @@
+
+
+:root {
+    --primary-bg: #fffdf8ff; 
+    --secondary-bg: #fffae9ff; 
+    --button-bg: #342066ff;
+    --highlight: #ffd700; 
+    --hover-button-bg: #5a3fa0;
+    --light-border: #d3d3d3;
+  }
+  
+  .inventory{
+      padding: 15px;
+  }
+  h1{
+    text-decoration: underline;
+    margin:0px
+  }
+  #title-and-search{
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+  }
+  
+  #storage-area{
+      display: flex;
+  }
+  #filters{
+      display: inline-flex;
+      align-items: center;
+  }
+  #filter-sort-add{
+      border-radius: 10px;
+      display: inline-flex;
+      justify-content: space-between;
+      width: 96.7%;
+      padding: 10px;
+      margin-top: 15px;
+  }
+  #sort{
+      margin-top: 10px;
+  }
+  #addItemBtn,select, #filter-btn{
+      border-radius: 4px;
+      font-size: .7rem;
+      font-family: Arial, sans-serif;
+      background-color: transparent;
+      padding: 2px;
+  }
+  #search-inventory>*{
+      height: 30px;
+      width: 200px;
+      border-radius: 10px;
+      padding-left: 10px;
+  
+  }
+  #add-item{
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+  }
+  #addItemBtn{
+      height: 50px;
+      width: 140px;
+      color: var(--primary-bg);
+      background-color: var(--button-bg);
+      font-weight: bold;
+      font-size: 14pt;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+  }
+  #addItemBtn:hover{
+      background-color: var(--hover-button-bg);
+  }
+  #filter-sort-add, #items{
+      border: var(--light-border) 3px solid;
+      background-color: var(--secondary-bg);
+  }
+  #items{
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow-y: auto;
+      width: 95%;
+      height: 600px;
+      padding: 15px
+  }
+  #items-table{
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+  }
+  #items-table td.no-border-table{
+      vertical-align: middle;
+  }
+  
+  #items-table tr:has(td.hover-to-edit:hover) td.hover-to-edit{
+      background-color: lightgoldenrodyellow;
+  }
+  
+  #items-table .rightmost-cell .edit-row-hint{
+      display: none;
+  }
+  
+  #items-table .rightmost-cell .delete-btn-wrap{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+  }
+  
+  #items-table tr:has(td.hover-to-edit:hover) .rightmost-cell .edit-row-hint{
+      display: inline;
+  }
+  
+  #items-table .rightmost-cell{
+      white-space: nowrap;
+  }
+  td {
+    border: 2px solid var(--light-border);
+    padding: 8px; 
+    margin: 0px;
+    text-align: left; 
+  }
+  
+  .no-border-table{
+      border: none;
+  }
+  .name-cell{
+      width: 365px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  .rating-col{
+      width: 170px;
+  }
+  .rating-cell{
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  .edit-btn, .delete-btn{
+      width: 30px;
+      height: 30px;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      border: none;
+      background-color: transparent;
+      padding: 0px;
+  
+  }
+  .delete-icon{
+      height: 30px;
+      width: auto;
+      display: block;
+      transform-origin: center;
+      transition: transform 0.15s ease;
+  }
+  .delete-icon:hover{
+      transform: scale(calc(25 / 30));
+  }
+  th{
+      text-align: left;
+  }
+  
+  #search-inventory>input{
+      font-size: 16px;
+  }
+  
+  .hidden { 
+      display: none !important; 
+  }
+  
+  .edit-row-tooltip{
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      background: #333;
+      color: #fff;
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  .require-name-error{
+      color: orange;
+      font-size: 14pt;
+      margin-top: 10px;
+  }
+  
+  .fade {
+      position: fixed; top: 0; left: 0; width: 640px; height: 960px;
+      background: rgba(0, 0, 0, 0.5); z-index: 10;
+  }
+  
+  .AddItem {
+      border: solid black 3px;
+      position: fixed; top: 10%; left: 2cap;
+      width:570px;
+      max-height: 75vh;
+      overflow-y: auto;
+      background: white; padding: 20px 30px;
+      border-radius: 5px; z-index:11;
+      box-sizing: border-box;
+  }
+  
+  #addItemForm .add-item-row,
+  #editItemForm .add-item-row{
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+  }
+
+  #addItemForm .add-item-row-stacked,
+  #editItemForm .add-item-row-stacked{
+      align-items: flex-start;
+  }
+  
+  #addItemForm .add-item-row label,
+  #editItemForm .add-item-row label{
+      width: 125px;
+  }
+  
+  #addItemForm .add-item-row input,
+  #editItemForm .add-item-row input{
+      flex: 1;
+      box-sizing: border-box;
+      font-size: 14pt;
+      min-height: 2.4em;
+      line-height: 1.35;
+      padding: 0.5em;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+  }
+
+  #addItemForm .add-item-row textarea,
+  #editItemForm .add-item-row textarea{
+      flex: 1;
+      box-sizing: border-box;
+      font-size: 14pt;
+      line-height: 1.35;
+      padding: 0.5em;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+      font-family: Arial, sans-serif;
+      min-height: 4.5em;
+      resize: vertical;
+      overflow-y: auto;
+  }
+  
+  #addItemForm input::placeholder,
+  #editItemForm input::placeholder,
+  #addItemForm textarea::placeholder,
+  #editItemForm textarea::placeholder{
+      font-style: italic;
+      font-size: 14pt;
+  }
+  
+  #addItemForm .add-item-actions button,
+  #editItemForm .add-item-actions button{
+      font-size: 14pt;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid var(--light-border);
+  }
+  #submitBtn,
+  #submitEditBtn{
+      background-color: var(--button-bg);
+      color: white;
+      font-weight: bold;
+  }
+  
+  #addItemForm .add-item-actions,
+  #editItemForm .add-item-actions{
+      margin-top: 12px;
+  }
+  
+  .AddItem .add-item-hint{
+      font-size: 14pt;
+  }
