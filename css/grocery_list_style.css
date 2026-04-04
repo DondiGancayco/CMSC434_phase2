@@ -7,41 +7,67 @@
  #user-input {
      margin-bottom: 20px;
      height: 60px;
-     display: flex;
  }
 
  #items {
      display: block;
  }
 
- #item-name-input{
-    width: 242px;
+ #item-name-input {
+     width: 242px;
  }
 
- #item-qty-input{
-    width: 70px;
+ #item-qty-input {
+     width: 70px;
  }
 
- #add-item-button{
-    margin-left: 15px;
-    width: 70px;
+ #add-item-button {
+     margin-left: 15px;
+     width: 70px;
  }
 
- .grocery-button{
-    font-size: 18pt;
-    background: #342066ff;
-    color: #fffbee;
-    padding: 10px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    border: none;
-    border-radius: 5px;
+ #view-lists-button {
+     float: left;
  }
 
- .input-fields{
-    font-size: 18pt;
-    margin: 1px;
-    padding: 5px;
-    font-family:Arial, Helvetica, sans-serif;
+ #save-list-button {
+     float: right;
+ }
+
+ .list-tabs {
+     height: 60px;
+     display: flex;
+     overflow-x: scroll;
+ }
+
+ .listlink {
+     color: rgb(126, 126, 126);
+     background-color: transparent;
+     float: left;
+     border: none;
+     outline: none;
+     cursor: pointer;
+     padding: 10px 20px;
+     font-size: 25px;
+     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+     flex-shrink: 0;
+
+ }
+
+ .current-tab-marker {
+     width: 100%;
+     margin-top: 5px;
+     margin-bottom: 0px;
+     height: 5px;
+     background-color: lightgray;
+
+ }
+
+ .input-fields {
+     font-size: 18pt;
+     padding: 5px;
+     margin: 1px;
+     font-family: Arial, Helvetica, sans-serif;
  }
 
  .item {
@@ -50,7 +76,7 @@
      justify-content: space-between;
      border: solid gray 1px;
      margin-top: 10px;
-     padding:2px;
+     padding: 2px;
      background-color: white;
  }
 
@@ -60,19 +86,77 @@
 
  #delete {
      margin-left: 100px;
-     width:35px;
+     width: 35px;
  }
 
  #left {
-    display: flex;
+     display: flex;
  }
 
  input[type="checkbox"] {
-    width:20px;
-    margin-right: 10px;
+     width: 20px;
+     margin-right: 10px;
  }
 
  input[type="checkbox"]:checked+span {
-     text-decoration: line-through;
      color: #888;
+     text-decoration: line-through;
+ }
+
+ /*-----------------------------------Menu for creating a new list----------------------------------------
+ /* The Modal (background) */
+ .modal {
+     display: none; /* Hidden by default */
+     position: fixed;
+     /* Stay in place */
+     z-index: 1;
+     /* Sit on top */
+     left: 0;
+     top: 0;
+     width: 100%;
+     /* Full width */
+     height: 100%;
+     /* Full height */
+     overflow: auto;
+     /* Enable scroll if needed */
+     background-color: rgb(0, 0, 0);
+     /* Fallback color */
+     background-color: rgba(0, 0, 0, 0.4);
+     /* Black w/ opacity */
+ }
+
+ /* Modal Content/Box */
+ .modal-content {
+     background-color: #fefefe;
+     margin: 15% auto;
+     padding: 25px;
+     padding-bottom: 50px;
+     /* 15% from the top and centered */
+     width:400px;
+     /* Could be more or less, depending on screen size */
+     text-align: center;
+ }
+
+ /* The Close Button */
+ .close {
+     color: #aaa;
+     float: right;
+     font-size: 28px;
+     font-weight: bold;
+ }
+
+ #add-list-button {
+     margin-top: 20px;
+     width: 80%;
+ }
+
+ #list-name-input {
+     width: 80%;
+ }
+
+ .close:hover,
+ .close:focus {
+     color: black;
+     text-decoration: none;
+     cursor: pointer;
  }
