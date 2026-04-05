@@ -1,0 +1,330 @@
+.people-container {
+    padding: 20px;
+    padding-bottom: 120px;
+    display: flex;
+    flex-direction: column;
+    height: 840px; 
+    box-sizing: border-box;
+    overflow-y: auto;
+    background-color: rgba(255, 250, 233, 0.423); 
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.hidden { 
+    display: none !important; 
+}
+
+#title-and-search h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--button-bg);
+    border-bottom: 2px solid var(--light-border);
+    padding-bottom: 10px;
+}
+
+/* --- VIEW 1: MAIN LIST --- */
+#listView { 
+    display: flex; 
+    flex-direction: column; 
+    flex: 1; 
+}
+
+.content-area { 
+    flex: 1; 
+    overflow-y: auto; 
+    margin-bottom: 20px;
+}
+
+ul#peopleList { 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+}
+
+.person-item {
+    background-color: var(--primary-bg);
+    padding: 20px;
+    padding-top: 25px; 
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid var(--light-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.person-info-clickable {
+    flex: 1;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row; 
+    align-items: center; 
+    gap: 15px;
+}
+
+.person-name { 
+    font-size: 24px; 
+    color: var(--button-bg); 
+    font-weight: bold; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.list-tags { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 8px; 
+}
+
+.list-diet-tag { 
+    font-size: 14px; 
+    padding: 4px 10px; 
+}
+
+.empty-message { 
+    text-align: center; 
+    color: #757575; 
+    font-size: 22px; 
+    margin-top: 50px; 
+}
+
+.footer { 
+    padding-top: 20px; 
+    border-top: 1px solid var(--light-border); 
+}
+
+/* --- GENERAL TAG STYLES --- */
+.skill-tag {
+    font-size: 16px;
+    background-color: var(--secondary-bg);
+    color: var(--button-bg);
+    border: 1px solid var(--button-bg);
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.diet-tag {
+    font-size: 16px;
+    background-color: #fce4ec; 
+    color: #c2185b;
+    padding: 8px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.tags-container { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+/* --- VIEW 2 & 3: FORM AND DETAILS --- */
+#formView, #detailsView {
+    flex: 1;
+}
+
+#formTitle { 
+    font-size: 28px; 
+    color: var(--button-bg); 
+    margin-bottom: 20px; 
+}
+
+.details-card {
+    background-color: var(--primary-bg);
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid var(--light-border);
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.detail-section { 
+    margin-bottom: 25px; 
+}
+
+.detail-section h3 { 
+    margin-bottom: 8px; 
+    color: #757575; 
+    font-size: 18px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+}
+
+.detail-header-name {
+    margin-top: 0;
+    margin-bottom: 20px; 
+    font-size: 36px; 
+    color: var(--button-bg);
+    border-bottom: 2px solid var(--light-border); 
+    padding-bottom: 10px;
+}
+
+.diet-header { color: #c2185b !important; font-weight: bold; }
+.diet-tags-bold { font-weight: bold; }
+.detail-skill { font-size: 18px; }
+
+.household-text { 
+    font-size: 18px; 
+    color: #333; 
+    margin: 0; 
+    font-weight: bold; 
+}
+
+/* --- FORMS --- */
+.form-group { 
+    margin-bottom: 25px; 
+}
+
+label { 
+    display: block; 
+    font-weight: bold; 
+    margin-bottom: 10px; 
+    font-size: 20px; 
+    color: #555; 
+}
+
+input[type="text"], select { 
+    width: 100%; 
+    padding: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    font-size: 18px; 
+    box-sizing: border-box; 
+    font-family: inherit;
+}
+
+.checkbox-group label, .radio-group label { 
+    font-weight: normal; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    font-size: 18px; 
+    margin-bottom: 10px; 
+    color: #333; 
+}
+
+input[type="checkbox"], input[type="radio"] { 
+    width: 22px; 
+    height: 22px; 
+}
+
+/* --- CUSTOM DIET INPUT AND TAGS --- */
+.custom-diet-input-group { 
+    display: flex; 
+    gap: 10px; 
+    margin-top: 15px; 
+}
+
+.custom-diet-input-group input { 
+    flex: 1; 
+    margin: 0; 
+}
+
+#addCustomDietBtn { 
+    width: auto; 
+    padding: 10px 20px; 
+    font-size: 18px; 
+    margin: 0; 
+}
+
+.custom-tags-area { 
+    margin-top: 15px; 
+}
+
+.removable-tag { 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.removable-tag::after { 
+    content: "✖"; 
+    font-size: 14px; 
+    opacity: 0.6; 
+}
+
+.removable-tag:hover { 
+    background-color: #f8bbd0; 
+}
+
+/* --- BUTTONS --- */
+button {
+    width: 100%;
+    padding: 10px; 
+    background-color: var(--button-bg); 
+    color: #fffbee; 
+    border: none;
+    border-radius: 5px; 
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+    font-size: 18pt; 
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button:hover { 
+    background-color: var(--hover-button-bg); 
+}
+
+button#showFormBtn {
+    background-color: var(--button-bg);
+}
+
+.back-btn {
+    width: auto;
+    background: none;
+    color: var(--button-bg); 
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+    text-align: left;
+    font-weight: normal;
+}
+
+.back-btn:hover { 
+    color: var(--highlight); 
+    background: none; 
+}
+
+.edit-btn {
+    width: auto;
+    background-color: transparent; 
+    color: var(--button-bg);
+    border: 2px solid var(--button-bg); 
+    padding: 8px 16px;
+    font-size: 14pt;
+    border-radius: 5px;
+    margin: 0;
+    margin-right: 45px; 
+    cursor: pointer;
+}
+
+.edit-btn:hover { 
+    background-color: var(--button-bg); 
+    color: #fffbee;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    background: none;
+    color: #aaaaaa; 
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    width: auto;
+    padding: 5px;
+}
+
+.delete-btn:hover { 
+    color: #d32f2f; 
+    background: none; 
+}

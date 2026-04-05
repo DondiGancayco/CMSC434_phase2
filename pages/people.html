@@ -1,43 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
-    <link rel="stylesheet" href="..\css\people_style.css">
-    <link rel="stylesheet" href="..\css\universal_style.css">
+    <title>People</title>
+    <link rel="stylesheet" href="../css/people_style.css">
+    <link rel="stylesheet" href="../css/universal_style.css">
 </head>
-
 <body>
-    <div class="tabcontent">
-        <h1>People</h1> 
-    </div>       
-  <!--navbar-->
-  <div id="navbar" class="fixed-navbar">
-    <button class="tablink" onclick="location.href='index.html'"id="defaultOpen">
-      <img src="..\assets\images\fridge.svg" height="70">
-      <span class="tab-label">Inventory</span>
-    </button>
-    <button class="tablink"  onclick="location.href='grocery_list.html'" >
-      <img src="..\assets\images\list.svg" height="70">
-      <span class="tab-label">Grocery List</span>
-    </button>      
-    <button class="tablink"  onclick="location.href='recipes.html'">
-      <img src="..\assets\images\recipes.svg" height="70">
-      <span class="tab-label">Recipes</span>
-    </button>
-    <button class="tablink"  onclick="location.href='meals.html'">
-      <img src="..\assets\images\meals.svg" height="70">
-      <span class="tab-label">Meals</span>
-    </button>
-    <button class="tablink"  onclick="location.href='people.html'">
-      <img src="..\assets\images\people.svg" height="70">
-      <span class="tab-label current-tab">People</span>
-    </button>
-  </div>
 
+<div class="people-container">
+    
+    <div id="listView">
+        <div id="title-and-search">
+            <h1>People</h1>
+        </div>
+        
+        <div class="content-area">
+            <ul id="peopleList"></ul>
+            <p id="emptyMessage" class="empty-message">No members added yet.</p>
+        </div>
+
+        <div class="footer">
+            <button id="showFormBtn">+ Add Person</button>
+        </div>
+    </div>
+
+    <div id="formView" class="hidden">
+        <button class="back-btn" id="backToListBtn">‹ Back to List</button>
+        
+        <h2 id="formTitle">Add Member</h2>
+        
+        <form id="profileForm">
+            <input type="hidden" id="editIndex" value="-1">
+
+            <div class="form-group">
+                <label for="userName">Display Name</label>
+                <input type="text" id="userName" placeholder="e.g., Olivia" required>
+            </div>
+
+            <div class="form-group">
+                <label for="skillLevel">Cooking Skill Level</label>
+                <select id="skillLevel" required>
+                    <option value="">Select level...</option>
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Dietary Restrictions</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="diet" value="Gluten-Free"> Gluten-Free</label>
+                    <label><input type="checkbox" name="diet" value="Dairy-Free"> Dairy-Free</label>
+                    <label><input type="checkbox" name="diet" value="Nut-Allergy"> Nut Allergy</label>
+                </div>
+                
+                <div class="custom-diet-input-group">
+                    <input type="text" id="customDietInput" placeholder="Other (e.g., Vegan, Kosher)">
+                    <button type="button" id="addCustomDietBtn">Add</button>
+                </div>
+                
+                <div id="customDietTagsContainer" class="tags-container custom-tags-area"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Inventory Preference</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="household" value="Roommates" required> Roommates (Separate)</label>
+                    <label><input type="radio" name="household" value="Family"> Family (Shared)</label>
+                </div>
+            </div>
+
+            <button type="submit" id="saveBtn">Save Member</button>
+        </form>
+    </div>
+
+    <div id="detailsView" class="hidden">
+        <button class="back-btn" id="backFromDetailsBtn">‹ Back to List</button>
+        
+        <div class="details-card">
+            <h2 id="detailName" class="detail-header-name">Name</h2>
+            
+            <div class="detail-section">
+                <h3 class="diet-header">Dietary Restrictions</h3>
+                <div id="detailDietTags" class="tags-container diet-tags-bold"></div>
+            </div>
+
+            <div class="detail-section">
+                <h3>Cooking Skill Level</h3>
+                <span id="detailSkill" class="skill-tag detail-skill">Skill</span>
+            </div>
+
+            <div class="detail-section">
+                <h3>Household Dynamics</h3>
+                <p id="detailHousehold" class="household-text">Household Type</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="navbar" class="fixed-navbar">
+    <button class="tablink" onclick="location.href='index.html'">
+        <img src="../assets/images/fridge.svg" height="70">
+        <span class="tab-label">Inventory</span>
+    </button>
+    <button class="tablink" onclick="location.href='grocery_list.html'">
+        <img src="../assets/images/list.svg" height="70">
+        <span class="tab-label">Grocery List</span>
+    </button>
+    <button class="tablink" onclick="location.href='recipes.html'">
+        <img src="../assets/images/recipes.svg" height="70">
+        <span class="tab-label">Recipes</span>
+    </button>
+    <button class="tablink" onclick="location.href='meals.html'">
+        <img src="../assets/images/meals.svg" height="70">
+        <span class="tab-label">Meals</span>
+    </button>
+    <button class="tablink" onclick="location.href='people.html'" id="defaultOpen">
+        <img src="../assets/images/people.svg" height="70">
+        <span class="tab-label current-tab">People</span>
+    </button>
+</div>
+
+<script src="../js/people.js"></script>
+<script src="../js/universal_script.js"></script>
 </body>
-<script src="universal_script.js"></script>
-
 </html>
