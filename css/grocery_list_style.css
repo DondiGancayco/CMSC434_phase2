@@ -1,5 +1,12 @@
 
  /*--------------------------------------------TAB 2 (Grocery List)----------------------------------------------------------*/
+#list-header{
+     display: flex;
+     align-items: center;
+}
+ #list-title{
+    align-self: center;
+}
  #direction {
      margin: 1px;
  }
@@ -47,7 +54,7 @@
      border: none;
      outline: none;
      cursor: pointer;
-     padding: 10px 20px;
+     padding: 10px 25px 10px 5px;
      font-size: 25px;
      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
      flex-shrink: 0;
@@ -160,3 +167,30 @@
      text-decoration: none;
      cursor: pointer;
  }
+ /*--------------------------------------------- Delete button, possibly merge with index style----------*/
+ .delete-btn{
+      width: 30px;
+      height: 30px;
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      border: none;
+      background-color: transparent;
+      padding: 0px;
+
+      margin-left: auto;
+  
+  }
+  .delete-icon{
+      height: 30px;
+      width: auto;
+      display: block;
+      transform-origin: center;
+      transition: transform 0.15s ease;
+  }
+
+.delete-icon:hover{
+     transform: scale(calc(25 / 30));
+}

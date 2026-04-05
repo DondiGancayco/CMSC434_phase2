@@ -16,7 +16,7 @@
 
   <div id="Grocery-List" class="tabcontent">
     <div class="list-tabs">
-      <button id = "My List-button" class="listlink" onclick="openTab('My List', 'My List-marker')">
+      <button id="My List-button" class="listlink" onclick="openTab('My List', 'My List-marker')">
         <span class="tab-label">My List</span>
         <div id="My List-marker" class="current-tab-marker"></div>
       </button>
@@ -28,7 +28,12 @@
 
     <div id="grocery-list" class="listcontent">
 
-      <h1 id="list-title">My List</h1>
+      <div id="list-header">
+        <h1 id="list-title">My List</h1>
+        <button type="button" class="delete-btn" id="delete-list-btn" onclick="deleteCurrList()">
+          <img class="delete-icon" src="../assets/images/trash.svg" alt="Delete">
+        </button>
+      </div>
       <div id="user-input">
         <input type="text" id="item-name-input" placeholder="New item name..." class="input-fields">
         <input type="number" value="1" id="item-qty-input" class="input-fields" min="0">
@@ -85,7 +90,7 @@
 
 </body>
 
-<script src="universal-script.js"></script>
+<script src="..\js\universal_script.js"></script>
 <script src="..\js\tabs_script.js"></script>
 <script src="..\js\checklist_script.js"></script>
 

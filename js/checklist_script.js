@@ -111,21 +111,27 @@ function openTab(tabname, marker) {
     reDisplay();
     updateListLinks();
 
+    //Hide delete button if currently vewing default list
+    delBtn =  document.getElementById("delete-list-btn");
+    if(tabname == "My List"){
+        delBtn.style.display = "none";
+    }
+    else{
+        delBtn.style.display = "block";
+    }
+
     // Remove the background color of all tablinks/buttons
     tablinks = document.getElementsByClassName("listlink");
     marks = document.getElementsByClassName("current-tab-marker");
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].style.color = "";
         marks[i].style.backgroundColor = "";
-        console.log("text and marker default colored")
     }
 
     // Change the font colors and the color of the bar at the bottom 
     marker = document.getElementById(marker);
     elmnt = document.getElementById(`${tabname}-button`);
-    console.log(elmnt);
     elmnt.style.color = "#342066ff";
-    console.log(elmnt.style)
     marker.style.backgroundColor = "blue";
 }
 
@@ -150,7 +156,6 @@ function createNewList() {
     pairList = getGroceryLists();
     pairList[text] = [];
     localStorage.setItem('groceryLists', JSON.stringify(pairList));
-    console.log(getGroceryLists());
 
     currList = text;
     reDisplay();
@@ -174,6 +179,19 @@ function closeNewListMenu() {
 
     modal = document.getElementById("new-list-menu");
     modal.style.display = "none";
+}
+
+function deleteCurrList(){
+    pairList = getGroceryLists();
+    delete pairList[currList]
+    localStorage.setItem('groceryLists', JSON.stringify(pairList));
+
+    console.log(`deleted list: ${currList}`);
+
+    currList = "My List";
+    
+    openTab('My List', 'My List-marker');
+    
 }
 
 window.onclick = function (event) {
