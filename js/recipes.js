@@ -7,6 +7,42 @@ let editingRowIndex = null;
 
 const LS_KEY = 'recipes';
 
+const ALLERGEN_ORDER = ['nuts', 'dairy', 'gluten', 'shellfish', 'fish', 'eggs', 'soybeans'];
+const DIET_ORDER = ['vegetarian', 'vegan', 'kosher', 'halal'];
+
+function getOrderedChecklistSelection(containerId, orderList) {
+    const el = document.getElementById(containerId);
+    if (!el) return [];
+    const selected = new Set(
+        Array.from(el.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value)
+    );
+    return orderList.filter((v) => selected.has(v));
+}
+
+function setChecklistFromStoredArray(containerId, val, orderList) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    let arr = [];
+    if (Array.isArray(val)) {
+        arr = val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    } else if (typeof val === 'string' && val.trim()) {
+        arr = val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    const expanded = [];
+    arr.forEach((x) => {
+        if (x === 'dairygluten') {
+            expanded.push('dairy', 'gluten');
+        } else {
+            expanded.push(x);
+        }
+    });
+    const allowed = new Set(orderList);
+    const on = new Set(expanded.filter((x) => allowed.has(x)));
+    el.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        cb.checked = on.has(cb.value);
+    });
+}
+
 function positionEditRowTooltip(e) {
     editRowTooltip.style.left = `${e.clientX + 12}px`;
     editRowTooltip.style.top = `${e.clientY + 12}px`;
@@ -104,9 +140,7 @@ editItemForm.addEventListener('submit', (e) => e.preventDefault());
 
 /** Enter moves focus for single-line fields only (textareas keep Enter for newlines). */
 const addEnterNext = {
-    toAddName: 'toAddDescription',
-    toAddAllergens: 'toAddDiets',
-    toAddDiets: 'toAddRating'
+    toAddName: 'toAddDescription'
 };
 
 form.addEventListener('keydown', (e) => {
@@ -119,9 +153,7 @@ form.addEventListener('keydown', (e) => {
 });
 
 const editEnterNext = {
-    toEditName: 'toEditDescription',
-    toEditAllergens: 'toEditDiets',
-    toEditDiets: 'toEditRating'
+    toEditName: 'toEditDescription'
 };
 
 editItemForm.addEventListener('keydown', (e) => {
@@ -145,8 +177,8 @@ function readRecipeFromAddForm() {
         description: document.getElementById('toAddDescription').value,
         ingredients: document.getElementById('toAddIngredients').value,
         steps: document.getElementById('toAddSteps').value,
-        allergens: document.getElementById('toAddAllergens').value,
-        diets: document.getElementById('toAddDiets').value,
+        allergens: getOrderedChecklistSelection('toAddAllergensChecklist', ALLERGEN_ORDER),
+        diets: getOrderedChecklistSelection('toAddDietsChecklist', DIET_ORDER),
         rating: document.getElementById('toAddRating').value
     };
 }
@@ -157,8 +189,8 @@ function readRecipeFromEditForm() {
         description: document.getElementById('toEditDescription').value,
         ingredients: document.getElementById('toEditIngredients').value,
         steps: document.getElementById('toEditSteps').value,
-        allergens: document.getElementById('toEditAllergens').value,
-        diets: document.getElementById('toEditDiets').value,
+        allergens: getOrderedChecklistSelection('toEditAllergensChecklist', ALLERGEN_ORDER),
+        diets: getOrderedChecklistSelection('toEditDietsChecklist', DIET_ORDER),
         rating: document.getElementById('toEditRating').value
     };
 }
@@ -172,8 +204,8 @@ function openEditModal(rowIndex) {
     document.getElementById('toEditDescription').value = item.description ?? '';
     document.getElementById('toEditIngredients').value = item.ingredients ?? '';
     document.getElementById('toEditSteps').value = item.steps ?? '';
-    document.getElementById('toEditAllergens').value = item.allergens ?? '';
-    document.getElementById('toEditDiets').value = item.diets ?? '';
+    setChecklistFromStoredArray('toEditAllergensChecklist', item.allergens, ALLERGEN_ORDER);
+    setChecklistFromStoredArray('toEditDietsChecklist', item.diets, DIET_ORDER);
     document.getElementById('toEditRating').value = item.rating ?? '';
     hideRequireNameErrorEdit();
     closeAddItem();

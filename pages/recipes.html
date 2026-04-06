@@ -59,13 +59,26 @@
               <label for="toAddSteps">Steps:</label>
               <textarea id="toAddSteps" rows="3" placeholder="optional"></textarea>
             </div>
-            <div class="add-item-row">
-              <label for="toAddAllergens">Allergens:</label>
-              <input type="text" id="toAddAllergens" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="add-allergens-legend">Allergens:</span>
+              <div id="toAddAllergensChecklist" class="checklist-options" role="group" aria-labelledby="add-allergens-legend">
+                <label class="checklist-option"><input type="checkbox" value="nuts"> nuts</label>
+                <label class="checklist-option"><input type="checkbox" value="dairy"> dairy</label>
+                <label class="checklist-option"><input type="checkbox" value="gluten"> gluten</label>
+                <label class="checklist-option"><input type="checkbox" value="shellfish"> shellfish</label>
+                <label class="checklist-option"><input type="checkbox" value="fish"> fish</label>
+                <label class="checklist-option"><input type="checkbox" value="eggs"> eggs</label>
+                <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
+              </div>
             </div>
-            <div class="add-item-row">
-              <label for="toAddDiets">Diets:</label>
-              <input type="text" id="toAddDiets" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="add-diets-legend">Diets:</span>
+              <div id="toAddDietsChecklist" class="checklist-options" role="group" aria-labelledby="add-diets-legend">
+                <label class="checklist-option"><input type="checkbox" value="vegetarian"> vegetarian</label>
+                <label class="checklist-option"><input type="checkbox" value="vegan"> vegan</label>
+                <label class="checklist-option"><input type="checkbox" value="kosher"> Kosher</label>
+                <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
+              </div>
             </div>
             <div class="add-item-row">
               <label for="toAddRating">Rating:</label>
@@ -102,13 +115,26 @@
               <label for="toEditSteps">Steps:</label>
               <textarea id="toEditSteps" rows="3" placeholder="optional"></textarea>
             </div>
-            <div class="add-item-row">
-              <label for="toEditAllergens">Allergens:</label>
-              <input type="text" id="toEditAllergens" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="edit-allergens-legend">Allergens:</span>
+              <div id="toEditAllergensChecklist" class="checklist-options" role="group" aria-labelledby="edit-allergens-legend">
+                <label class="checklist-option"><input type="checkbox" value="nuts"> nuts</label>
+                <label class="checklist-option"><input type="checkbox" value="dairy"> dairy</label>
+                <label class="checklist-option"><input type="checkbox" value="gluten"> gluten</label>
+                <label class="checklist-option"><input type="checkbox" value="shellfish"> shellfish</label>
+                <label class="checklist-option"><input type="checkbox" value="fish"> fish</label>
+                <label class="checklist-option"><input type="checkbox" value="eggs"> eggs</label>
+                <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
+              </div>
             </div>
-            <div class="add-item-row">
-              <label for="toEditDiets">Diets:</label>
-              <input type="text" id="toEditDiets" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="edit-diets-legend">Diets:</span>
+              <div id="toEditDietsChecklist" class="checklist-options" role="group" aria-labelledby="edit-diets-legend">
+                <label class="checklist-option"><input type="checkbox" value="vegetarian"> vegetarian</label>
+                <label class="checklist-option"><input type="checkbox" value="vegan"> vegan</label>
+                <label class="checklist-option"><input type="checkbox" value="kosher"> Kosher</label>
+                <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
+              </div>
             </div>
             <div class="add-item-row">
               <label for="toEditRating">Rating:</label>

@@ -5,6 +5,51 @@ const editRowTooltip = document.getElementById('edit-row-tooltip');
 
 let editingRowIndex = null;
 
+const ALLERGEN_ORDER = ['nuts', 'dairy', 'gluten', 'shellfish', 'fish', 'eggs', 'soybeans'];
+const DIET_ORDER = ['vegetarian', 'vegan', 'kosher', 'halal'];
+const STORAGE_LOCATION_ALLOWED = new Set(['pantry', 'fridge', 'freezer', 'other']);
+
+/** @returns {'' | 'pantry' | 'fridge' | 'freezer' | 'other'} */
+function normalizeStorageLocation(val) {
+    if (val === undefined || val === null) return '';
+    const s = String(val).trim().toLowerCase();
+    if (s === '') return '';
+    return STORAGE_LOCATION_ALLOWED.has(s) ? s : '';
+}
+
+function getOrderedChecklistSelection(containerId, orderList) {
+    const el = document.getElementById(containerId);
+    if (!el) return [];
+    const selected = new Set(
+        Array.from(el.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value)
+    );
+    return orderList.filter((v) => selected.has(v));
+}
+
+function setChecklistFromStoredArray(containerId, val, orderList) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    let arr = [];
+    if (Array.isArray(val)) {
+        arr = val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    } else if (typeof val === 'string' && val.trim()) {
+        arr = val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    const expanded = [];
+    arr.forEach((x) => {
+        if (x === 'dairygluten') {
+            expanded.push('dairy', 'gluten');
+        } else {
+            expanded.push(x);
+        }
+    });
+    const allowed = new Set(orderList);
+    const on = new Set(expanded.filter((x) => allowed.has(x)));
+    el.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+        cb.checked = on.has(cb.value);
+    });
+}
+
 function positionEditRowTooltip(e) {
     editRowTooltip.style.left = `${e.clientX + 12}px`;
     editRowTooltip.style.top = `${e.clientY + 12}px`;
@@ -104,8 +149,7 @@ const addItemFieldOrder = [
     'toAddAmount',
     'toAddOwner',
     'toAddExpiration',
-    'toAddAllergens',
-    'toAddDiets'
+    'toAddStorageLocation'
 ];
 
 form.addEventListener('keydown', (e) => {
@@ -124,8 +168,7 @@ const editItemFieldOrder = [
     'toEditAmount',
     'toEditOwner',
     'toEditExpiration',
-    'toEditAllergens',
-    'toEditDiets'
+    'toEditStorageLocation'
 ];
 
 editItemForm.addEventListener('keydown', (e) => {
@@ -154,8 +197,9 @@ function openEditModal(rowIndex) {
     document.getElementById('toEditAmount').value = item.amount ?? '';
     document.getElementById('toEditOwner').value = item.owner ?? '';
     document.getElementById('toEditExpiration').value = item.expiration ?? '';
-    document.getElementById('toEditAllergens').value = item.allergens ?? '';
-    document.getElementById('toEditDiets').value = item.diets ?? '';
+    setChecklistFromStoredArray('toEditAllergensChecklist', item.allergens, ALLERGEN_ORDER);
+    setChecklistFromStoredArray('toEditDietsChecklist', item.diets, DIET_ORDER);
+    document.getElementById('toEditStorageLocation').value = normalizeStorageLocation(item.storageLocation);
     hideRequireNameErrorEdit();
     closeAddItem();
     fadeAndEditItem.classList.remove('hidden');
@@ -177,8 +221,9 @@ function saveEditItem() {
         amount: document.getElementById('toEditAmount').value,
         owner: document.getElementById('toEditOwner').value,
         expiration: document.getElementById('toEditExpiration').value,
-        allergens: document.getElementById('toEditAllergens').value,
-        diets: document.getElementById('toEditDiets').value
+        allergens: getOrderedChecklistSelection('toEditAllergensChecklist', ALLERGEN_ORDER),
+        diets: getOrderedChecklistSelection('toEditDietsChecklist', DIET_ORDER),
+        storageLocation: normalizeStorageLocation(document.getElementById('toEditStorageLocation').value)
     };
     if (typeof prev.addedAt === 'number' && Number.isFinite(prev.addedAt)) {
         updated.addedAt = prev.addedAt;
@@ -201,8 +246,9 @@ function addItem() {
         amount: document.getElementById('toAddAmount').value,
         owner: document.getElementById('toAddOwner').value,
         expiration: document.getElementById('toAddExpiration').value,
-        allergens: document.getElementById('toAddAllergens').value,
-        diets: document.getElementById('toAddDiets').value,
+        allergens: getOrderedChecklistSelection('toAddAllergensChecklist', ALLERGEN_ORDER),
+        diets: getOrderedChecklistSelection('toAddDietsChecklist', DIET_ORDER),
+        storageLocation: normalizeStorageLocation(document.getElementById('toAddStorageLocation').value),
         addedAt: Date.now()
     };
 

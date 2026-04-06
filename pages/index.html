@@ -22,27 +22,16 @@
     <div id="filter-sort-add">
 
       <div id="filter-sort">
-        <!--
+        
         <div id="filters">
-          <label for="storage-area">Storage Area:</label>
-          <select name="storage-area" id="storage-area">
-            <option value="all">All Areas</option>
-            <option value="pantry">Pantry</option>
-            <option value="fridge">Fridge</option>
-            <option value="freezer">Freezer</option>
-            <option value="misc">Misc</option>
-          </select>
 
-          <div id="more-filters" class="hidden">
-            <label for="more-filters" id="filters">Filters:</label>
-            <button id="filter-btn">
-              <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="35" height="30"
-                id="filter-symbol">
-            </button>
-          </div>
+          <button id="filter-btn">
+            <label id="filters" style="font-size: 16pt; padding: 5px;">Filters</label>
+            <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="35" height="20px"
+              id="filter-symbol">
+          </button>
 
         </div>
-      -->
 
         <div id="sort">
           <label for="inventory-sort">Sort by:</label>
@@ -85,13 +74,36 @@
               <label for="toAddExpiration">Expiration:</label>
               <input type="text" id="toAddExpiration"placeholder="optional, e.g. 06/01/2026">
             </div>
-            <div class="add-item-row">
-              <label for="toAddAllergens">Allergens:</label>
-              <input type="text" id="toAddAllergens" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="add-allergens-legend">Allergens:</span>
+              <div id="toAddAllergensChecklist" class="checklist-options" role="group" aria-labelledby="add-allergens-legend">
+                <label class="checklist-option"><input type="checkbox" value="nuts"> nuts</label>
+                <label class="checklist-option"><input type="checkbox" value="dairy"> dairy</label>
+                <label class="checklist-option"><input type="checkbox" value="gluten"> gluten</label>
+                <label class="checklist-option"><input type="checkbox" value="shellfish"> shellfish</label>
+                <label class="checklist-option"><input type="checkbox" value="fish"> fish</label>
+                <label class="checklist-option"><input type="checkbox" value="eggs"> eggs</label>
+                <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
+              </div>
+            </div>
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="add-diets-legend">Diets:</span>
+              <div id="toAddDietsChecklist" class="checklist-options" role="group" aria-labelledby="add-diets-legend">
+                <label class="checklist-option"><input type="checkbox" value="vegetarian"> vegetarian</label>
+                <label class="checklist-option"><input type="checkbox" value="vegan"> vegan</label>
+                <label class="checklist-option"><input type="checkbox" value="kosher"> Kosher</label>
+                <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
+              </div>
             </div>
             <div class="add-item-row">
-              <label for="toAddDiets">Diets:</label>
-              <input type="text" id="toAddDiets" placeholder="optional, separate multiple values with commas">
+              <label for="toAddStorageLocation">Storage Location:</label>
+              <select id="toAddStorageLocation" name="storageLocation" aria-label="Storage Location">
+                <option value="">no selection (default)</option>
+                <option value="pantry">pantry</option>
+                <option value="fridge">fridge</option>
+                <option value="freezer">freezer</option>
+                <option value="other">other</option>
+              </select>
             </div>
             <br>
             <br>
@@ -127,13 +139,36 @@
               <label for="toEditExpiration">Expiration:</label>
               <input type="text" id="toEditExpiration" placeholder="optional, e.g. 06/01/2026">
             </div>
-            <div class="add-item-row">
-              <label for="toEditAllergens">Allergens:</label>
-              <input type="text" id="toEditAllergens" placeholder="optional, separate multiple values with commas">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="edit-allergens-legend">Allergens:</span>
+              <div id="toEditAllergensChecklist" class="checklist-options" role="group" aria-labelledby="edit-allergens-legend">
+                <label class="checklist-option"><input type="checkbox" value="nuts"> nuts</label>
+                <label class="checklist-option"><input type="checkbox" value="dairy"> dairy</label>
+                <label class="checklist-option"><input type="checkbox" value="gluten"> gluten</label>
+                <label class="checklist-option"><input type="checkbox" value="shellfish"> shellfish</label>
+                <label class="checklist-option"><input type="checkbox" value="fish"> fish</label>
+                <label class="checklist-option"><input type="checkbox" value="eggs"> eggs</label>
+                <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
+              </div>
+            </div>
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="edit-diets-legend">Diets:</span>
+              <div id="toEditDietsChecklist" class="checklist-options" role="group" aria-labelledby="edit-diets-legend">
+                <label class="checklist-option"><input type="checkbox" value="vegetarian"> vegetarian</label>
+                <label class="checklist-option"><input type="checkbox" value="vegan"> vegan</label>
+                <label class="checklist-option"><input type="checkbox" value="kosher"> Kosher</label>
+                <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
+              </div>
             </div>
             <div class="add-item-row">
-              <label for="toEditDiets">Diets:</label>
-              <input type="text" id="toEditDiets" placeholder="optional, separate multiple values with commas">
+              <label for="toEditStorageLocation">Storage Location:</label>
+              <select id="toEditStorageLocation" name="storageLocation" aria-label="Storage Location">
+                <option value="">no selection (default)</option>
+                <option value="pantry">pantry</option>
+                <option value="fridge">fridge</option>
+                <option value="freezer">freezer</option>
+                <option value="other">other</option>
+              </select>
             </div>
             <br>
             <br>

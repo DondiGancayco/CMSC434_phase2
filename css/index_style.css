@@ -70,7 +70,10 @@ h1{
     border-radius: 5px;
     border: 1px solid var(--light-border);
 }
-#addItemBtn:hover{
+#addItemBtn:hover {
+    background-color: var(--hover-button-bg);
+}
+#filter-btn:hover{
     background-color: var(--hover-button-bg);
 }
 #filter-sort-add, #items{
@@ -197,10 +200,11 @@ th{
 
 .AddItem {
     border: solid black 3px;
-    position: fixed; top: 15%; left: 20px;
+    position: fixed; top: 10%; left: 20px;
     width:530px;
     background: white; padding: 20px 30px;
     border-radius: 5px; z-index:11;
+    padding-top: 0px;
 }
 
 #addItemForm .add-item-row,
@@ -210,13 +214,52 @@ th{
     margin-bottom: 8px;
 }
 
-#addItemForm .add-item-row label,
-#editItemForm .add-item-row label{
+#addItemForm .add-item-row-stacked,
+#editItemForm .add-item-row-stacked{
+    align-items: flex-start;
+}
+
+#addItemForm .add-item-row label:not(.checklist-option),
+#editItemForm .add-item-row label:not(.checklist-option){
     width: 105px;
 }
 
-#addItemForm .add-item-row input,
-#editItemForm .add-item-row input{
+#addItemForm .checklist-label,
+#editItemForm .checklist-label{
+    width: 105px;
+    flex-shrink: 0;
+    font-size: 14pt;
+    font-weight: bold;
+    padding-top: 0.15em;
+    align-self: start;
+}
+
+#addItemForm .checklist-options,
+#editItemForm .checklist-options{
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem 1rem;
+    align-items: center;
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+#addItemForm .checklist-option,
+#editItemForm .checklist-option{
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+}
+
+#addItemForm .add-item-row input:not([type="checkbox"]),
+#editItemForm .add-item-row input:not([type="checkbox"]){
     flex: 1;
     box-sizing: border-box;
     font-size: 14pt;
@@ -225,6 +268,36 @@ th{
     padding: 0.5em;
     border-radius: 5px;
     border: 1px solid var(--light-border);
+}
+
+#addItemForm .add-item-row select,
+#editItemForm .add-item-row select{
+    flex: 1;
+    box-sizing: border-box;
+    font-size: 14pt;
+    min-height: 2.4em;
+    line-height: 1.35;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid var(--light-border);
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #fff;
+}
+
+#addItemForm .add-item-row .checklist-option input[type="checkbox"],
+#editItemForm .add-item-row .checklist-option input[type="checkbox"]{
+    flex: none;
+    width: 14px;
+    height: 17px;
+    min-width: 14px;
+    min-height: 17px;
+    max-width: 14px;
+    max-height: 17px;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    cursor: pointer;
+    accent-color: var(--button-bg);
 }
 
 #addItemForm input::placeholder,
