@@ -51,9 +51,10 @@
         </button>
       </div>
       <!-- add item pop up -->
-      <div id="fadeAndAddItem" class="nohidden">
+      <div id="fadeAndAddItem" class="hidden">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="cancelBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3><u>Add Item</u></h3>
 
           <form id="addItemForm">
@@ -128,6 +129,7 @@
       <div id="fadeAndEditItem" class="hidden">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="cancelEditBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3><u>Edit Item</u></h3>
           <form id="editItemForm">
             <div class="add-item-row">
@@ -187,7 +189,6 @@
             </div>
             <br>
             <div class="add-item-actions">
-              <button type="button" id="cancelEditBtn">Cancel</button>
               <button type="button" id="submitEditBtn">Save</button>
             </div>
             <div id="require-name-error-edit" class="hidden require-name-error"><em>Item name is required before saving</em></div>
@@ -199,6 +200,7 @@
       <div id="fadeAndFilterInventory" class="hidden" role="dialog" aria-labelledby="filter-inventory-title" aria-modal="true">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="filterModalCancelBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3 id="filter-inventory-title"><u>Filter inventory</u></h3>
           <form id="filterInventoryForm">
             <div class="add-item-row add-item-row-stacked checklist-row">
@@ -225,7 +227,7 @@
             </div>
             <hr>
             <div class="add-item-row add-item-row-stacked filter-storage-row">
-              <span class="checklist-label" id="filter-storage-legend">Storage location:</span>
+              <span class="checklist-label" id="filter-storage-legend">Storage Location:</span>
               <div class="filter-storage-options" role="radiogroup" aria-labelledby="filter-storage-legend">
                 <label class="filter-storage-option"><input type="radio" name="filterStorage" value="all" checked> all</label>
                 <label class="filter-storage-option"><input type="radio" name="filterStorage" value="no_selection"> no selection</label>
@@ -237,7 +239,6 @@
             </div>
             <br>
             <div class="add-item-actions filter-modal-actions">
-              <button type="button" id="filterModalCancelBtn">Cancel</button>
               <button type="button" id="filterModalApplyBtn">Apply</button>
               <button type="button" id="filterModalClearAllBtn">Clear All</button>
             </div>

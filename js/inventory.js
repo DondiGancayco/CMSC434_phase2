@@ -143,7 +143,6 @@ function positionEditRowTooltip(e) {
     editRowTooltip.style.top = `${e.clientY + 12}px`;
 }
 
-/** Pairs items with their index in localStorage order (for edit/delete after sort/filter). */
 function getFilteredSortedRows(inv, prefix, sortMode, invFilters) {
     const filters = invFilters ?? appliedInventoryFilters;
     const withIdx = inv.map((item, index) => ({ item, index }));

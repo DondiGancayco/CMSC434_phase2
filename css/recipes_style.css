@@ -229,9 +229,33 @@
       width:510px;
       max-height: 82vh;
       overflow-y: auto;
-      background: white; padding: 20px 30px;
-      border-radius: 5px; z-index:11;
-      padding-top: 0px;
+      background: white;
+      padding: 10px 42px 20px 30px;
+      border-radius: 5px;
+      z-index: 11;
+  }
+
+  .AddItem .modal-close-btn{
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      z-index: 2;
+      box-sizing: border-box;
+      min-width: 2em;
+      min-height: 2em;
+      padding: 2px 8px;
+      font-size: 16pt;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      line-height: 1;
+      border: 1px solid var(--light-border);
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+  }
+
+  .AddItem .modal-close-btn:hover{
+      background: var(--secondary-bg);
   }
   
   #addItemForm .add-item-row,
@@ -302,6 +326,17 @@
       padding: 0.5em;
       border-radius: 5px;
       border: 1px solid var(--light-border);
+  }
+
+  #addItemForm #toAddRating,
+  #editItemForm #toEditRating{
+      flex: 0 0 auto;
+      width: 3.25rem;
+      max-width: 4rem;
+      min-width: 2.75rem;
+      padding-left: 0.35em;
+      padding-right: 0.35em;
+      text-align: center;
   }
 
   #addItemForm .add-item-row .checklist-option input[type="checkbox"],

@@ -120,6 +120,15 @@ function getFilteredSortedRows(list, prefix, sortMode, recipeFilters) {
 
     const time = (item) => (typeof item.addedAt === 'number' && Number.isFinite(item.addedAt) ? item.addedAt : 0);
 
+    const ratingForSort = (item) => {
+        const raw = item.rating;
+        if (raw === undefined || raw === null) return -1;
+        const s = String(raw).trim();
+        if (s === '') return -1;
+        const n = Number(s);
+        return Number.isFinite(n) ? n : -1;
+    };
+
     filtered.sort((a, b) => {
         const A = a.item;
         const B = b.item;
@@ -130,6 +139,8 @@ function getFilteredSortedRows(list, prefix, sortMode, recipeFilters) {
                 return String(A.name ?? '').localeCompare(String(B.name ?? ''), undefined, { sensitivity: 'base' });
             case 'Name Z-A':
                 return String(B.name ?? '').localeCompare(String(A.name ?? ''), undefined, { sensitivity: 'base' });
+            case 'Highest Rated':
+                return ratingForSort(B) - ratingForSort(A);
             case 'newer first':
             default:
                 return time(B) - time(A);

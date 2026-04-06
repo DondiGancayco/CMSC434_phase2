@@ -38,6 +38,7 @@
             <option value="older first">older first</option>
             <option value="Name A-Z">Name A-Z</option>
             <option value="Name Z-A">Name Z-A</option>
+            <option value="Highest Rated">Highest Rated</option>
           </select>
         </div>
       </div><!-- end filter-sort -->
@@ -50,6 +51,7 @@
       <div id="fadeAndAddItem" class="hidden">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="cancelBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3><u>Add Recipe</u></h3>
           <form id="addItemForm">
             <div class="add-item-row" style="margin-bottom: 16px;">
@@ -69,8 +71,8 @@
               <textarea id="toAddSteps" rows="3"></textarea>
             </div>            
             <div class="add-item-row">
-              <label for="toAddRating">Rating:</label>
-              <input type="text" id="toAddRating">
+              <label for="toAddRating">Rating<br>(out of 5):</label>
+              <input type="number" id="toAddRating" min="0" max="5" step="1">
             </div>
             <br>
             
@@ -98,7 +100,6 @@
             </div>
 
             <div class="add-item-actions">
-              <button type="button" id="cancelBtn">Cancel</button>
               <button type="button" id="submitBtn">Submit</button>
             </div>
             <div id="require-name-error" class="hidden require-name-error"><em>Recipe name is required before submitting</em></div>
@@ -109,6 +110,7 @@
       <div id="fadeAndEditItem" class="hidden">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="cancelEditBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3><u>Edit Recipe</u></h3>
           <form id="editItemForm">
             <div class="add-item-row" style="margin-bottom: 16px;">
@@ -128,15 +130,15 @@
               <textarea id="toEditSteps" rows="3"></textarea>
             </div>            
             <div class="add-item-row">
-              <label for="toEditRating">Rating:</label>
-              <input type="text" id="toEditRating">
-            </div>
+              <label for="toEditRating">Rating<br>(out of 5):</label>
+              <input type="number" id="toEditRating" min="0" max="5" step="1">
+            </div>  
             <br>
 
             <div class="add-item-row add-item-row-stacked checklist-row">
               <span class="checklist-label" id="edit-allergens-legend">Allergens:</span>
               <div id="toEditAllergensChecklist" class="checklist-options" role="group" aria-labelledby="edit-allergens-legend">
-                <label class="checklist-option"><input type="checkbox" value="nuts"> nuts</label>
+                <label class="checklist-option"><input type="checkbox" value="nuts">   nuts</label>
                 <label class="checklist-option"><input type="checkbox" value="dairy"> dairy</label>
                 <label class="checklist-option"><input type="checkbox" value="gluten"> gluten</label>
                 <label class="checklist-option"><input type="checkbox" value="shellfish"> shellfish</label>
@@ -168,6 +170,7 @@
       <div id="fadeAndFilterRecipes" class="hidden" role="dialog" aria-labelledby="filter-recipes-title" aria-modal="true">
         <div class="fade"></div>
         <div class="AddItem">
+          <button type="button" id="recipeFilterModalCancelBtn" class="modal-close-btn" aria-label="Close">X</button>
           <h3 id="filter-recipes-title"><u>Filter Recipes</u></h3>
           <form id="filterRecipeForm">
             <div class="add-item-row add-item-row-stacked checklist-row">
@@ -194,7 +197,6 @@
             </div>
             <br>
             <div class="add-item-actions filter-modal-actions">
-              <button type="button" id="recipeFilterModalCancelBtn">Cancel</button>
               <button type="button" id="recipeFilterModalApplyBtn">Apply</button>
               <button type="button" id="recipeFilterModalClearAllBtn">Clear All</button>
             </div>
