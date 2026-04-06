@@ -27,6 +27,22 @@ let appliedInventoryFilters = {
     storageMode: 'all'
 };
 
+/** Value for `<input type="number">` when editing; non-numeric legacy amounts show empty. */
+function amountStringForNumberInput(stored) {
+    if (stored === undefined || stored === null) return '';
+    const s = String(stored).trim();
+    if (s === '') return '';
+    const n = Number(s);
+    return Number.isFinite(n) ? s : '';
+}
+
+function formatInventoryAmountCell(item) {
+    const a = item.amount != null && String(item.amount).trim() !== '' ? String(item.amount).trim() : '';
+    const u = item.units != null && String(item.units).trim() !== '' ? String(item.units).trim() : '';
+    if (a && u) return `${a} ${u}`;
+    return a || u || '';
+}
+
 /** @returns {'' | 'pantry' | 'fridge' | 'freezer' | 'other'} */
 function normalizeStorageLocation(val) {
     if (val === undefined || val === null) return '';
@@ -328,6 +344,7 @@ editItemForm.addEventListener('submit', (e) => e.preventDefault());
 const addItemFieldOrder = [
     'toAddName',
     'toAddAmount',
+    'toAddUnits',
     'toAddOwner',
     'toAddExpiration',
     'toAddStorageLocation'
@@ -347,6 +364,7 @@ form.addEventListener('keydown', (e) => {
 const editItemFieldOrder = [
     'toEditName',
     'toEditAmount',
+    'toEditUnits',
     'toEditOwner',
     'toEditExpiration',
     'toEditStorageLocation'
@@ -375,7 +393,8 @@ function openEditModal(rowIndex) {
     if (item === undefined) return;
     editingRowIndex = rowIndex;
     document.getElementById('toEditName').value = item.name ?? '';
-    document.getElementById('toEditAmount').value = item.amount ?? '';
+    document.getElementById('toEditAmount').value = amountStringForNumberInput(item.amount);
+    document.getElementById('toEditUnits').value = item.units ?? '';
     document.getElementById('toEditOwner').value = item.owner ?? '';
     document.getElementById('toEditExpiration').value = item.expiration ?? '';
     setChecklistFromStoredArray('toEditAllergensChecklist', item.allergens, ALLERGEN_ORDER);
@@ -401,6 +420,7 @@ function saveEditItem() {
     const updated = {
         name: nameValue,
         amount: document.getElementById('toEditAmount').value,
+        units: document.getElementById('toEditUnits').value,
         owner: document.getElementById('toEditOwner').value,
         expiration: document.getElementById('toEditExpiration').value,
         allergens: getOrderedChecklistSelection('toEditAllergensChecklist', ALLERGEN_ORDER),
@@ -426,6 +446,7 @@ function addItem() {
     const newItem = {
         name: nameValue,
         amount: document.getElementById('toAddAmount').value,
+        units: document.getElementById('toAddUnits').value,
         owner: document.getElementById('toAddOwner').value,
         expiration: document.getElementById('toAddExpiration').value,
         allergens: getOrderedChecklistSelection('toAddAllergensChecklist', ALLERGEN_ORDER),
@@ -465,7 +486,7 @@ function displayData() {
         const row = `
         <tr data-row-index="${index}">
           <td class="name-cell hover-to-edit">${item.name}</td>
-          <td class="hover-to-edit">${item.amount}</td>
+          <td class="hover-to-edit">${formatInventoryAmountCell(item)}</td>
           <td class="no-border-table rightmost-cell">
             <span class="delete-btn-wrap">
               <button type="button" class="delete-btn"><img class="delete-icon" src="../assets/images/trash.svg"

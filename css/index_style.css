@@ -216,6 +216,27 @@ th{
     margin-bottom: 8px;
 }
 
+#addItemForm .add-item-row-amount-units,
+#editItemForm .add-item-row-amount-units{
+    flex-wrap: nowrap;
+    gap: 0.75rem 1.25rem;
+}
+
+#addItemForm .add-item-row-amount-units .amount-units-group,
+#editItemForm .add-item-row-amount-units .amount-units-group{
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex: 0 1 auto;
+}
+
+#addItemForm .add-item-row-amount-units .amount-units-group label,
+#editItemForm .add-item-row-amount-units .amount-units-group label{
+    width: auto;
+    min-width: 4.25rem;
+    flex-shrink: 0;
+}
+
 #addItemForm .add-item-row-stacked,
 #editItemForm .add-item-row-stacked,
 #filterInventoryForm .add-item-row-stacked{
@@ -276,6 +297,29 @@ th{
     padding: 0.5em;
     border-radius: 5px;
     border: 1px solid var(--light-border);
+}
+
+#addItemForm .add-item-row-amount-units .amount-units-group input,
+#editItemForm .add-item-row-amount-units .amount-units-group input{
+    flex: 0 0 auto;
+    font-size: 14pt;
+    min-height: 2.4em;
+    line-height: 1.35;
+    padding: 0.35em 0.45em;
+    border-radius: 5px;
+    border: 1px solid var(--light-border);
+}
+
+#addItemForm .add-item-row-amount-units .amount-units-group:first-child input,
+#editItemForm .add-item-row-amount-units .amount-units-group:first-child input{
+    width: 4.5rem;
+    max-width: 5rem;
+}
+
+#addItemForm .add-item-row-amount-units .amount-units-group:last-child input,
+#editItemForm .add-item-row-amount-units .amount-units-group:last-child input{
+    width: 5.75rem;
+    max-width: 7rem;
 }
 
 #addItemForm .add-item-row select,
@@ -346,7 +390,7 @@ th{
 
 .inventory-filter-summary{
     font-size: 14pt;
-    color: #333;
+    color: black;
     max-width: 450px;
     text-align: left;
     align-self: center;

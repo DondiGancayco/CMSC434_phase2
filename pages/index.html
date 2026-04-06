@@ -51,7 +51,7 @@
         </button>
       </div>
       <!-- add item pop up -->
-      <div id="fadeAndAddItem" class="hidden">
+      <div id="fadeAndAddItem" class="nohidden">
         <div class="fade"></div>
         <div class="AddItem">
           <h3><u>Add Item</u></h3>
@@ -59,19 +59,25 @@
           <form id="addItemForm">
             <div class="add-item-row" style="margin-bottom: 30px;">
               <label for="toAddName">Name:</label>
-              <input type="text" id="toAddName" placeholder="required">
+              <input type="text" id="toAddName" placeholder="required, all other fields optional">
             </div>
-            <div class="add-item-row">
-              <label for="toAddAmount">Amount:</label>
-              <input type="text" id="toAddAmount" placeholder="optional, e.g. 5ct, 3.5lb, 2gal...">
+            <div class="add-item-row add-item-row-amount-units">
+              <div class="amount-units-group">
+                <label for="toAddAmount">Amount:</label>
+                <input type="number" id="toAddAmount" min="0" step="any" value="1">
+              </div>
+              <div class="amount-units-group">
+                <label for="toAddUnits">Units:</label>
+                <input type="text" id="toAddUnits" value="count" autocomplete="off">
+              </div>
             </div>
             <div class="add-item-row">
               <label for="toAddOwner">Owner:</label>
-              <input type="text" id="toAddOwner" placeholder="optional">
+              <input type="text" id="toAddOwner" placeholder="">
             </div>
             <div class="add-item-row">
               <label for="toAddExpiration">Expiration:</label>
-              <input type="text" id="toAddExpiration"placeholder="optional, e.g. 06/01/2026">
+              <input type="text" id="toAddExpiration"placeholder="e.g. 06/01/2026">
             </div>
             
             <div class="add-item-row">
@@ -126,19 +132,25 @@
           <form id="editItemForm">
             <div class="add-item-row">
               <label for="toEditName">Name:</label>
-              <input type="text" id="toEditName" placeholder="required">
+              <input type="text" id="toEditName" placeholder="required, all other fields optional">
             </div>
-            <div class="add-item-row">
-              <label for="toEditAmount">Amount:</label>
-              <input type="text" id="toEditAmount" placeholder="optional, e.g. 5ct, 3.5lb, 2gal...">
+            <div class="add-item-row add-item-row-amount-units">
+              <div class="amount-units-group">
+                <label for="toEditAmount">Amount:</label>
+                <input type="number" id="toEditAmount" min="0" step="any">
+              </div>
+              <div class="amount-units-group">
+                <label for="toEditUnits">Units:</label>
+                <input type="text" id="toEditUnits" autocomplete="off">
+              </div>
             </div>
             <div class="add-item-row">
               <label for="toEditOwner">Owner:</label>
-              <input type="text" id="toEditOwner" placeholder="optional">
+              <input type="text" id="toEditOwner" placeholder="">
             </div>
             <div class="add-item-row">
               <label for="toEditExpiration">Expiration:</label>
-              <input type="text" id="toEditExpiration" placeholder="optional, e.g. 06/01/2026">
+              <input type="text" id="toEditExpiration" placeholder="e.g. 06/01/2026">
             </div>
             <div class="add-item-row">
               <label for="toEditStorageLocation">Storage Location:</label>
