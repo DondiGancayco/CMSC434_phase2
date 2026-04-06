@@ -8,6 +8,7 @@ let editingRowIndex = null;
 const ALLERGEN_ORDER = ['nuts', 'dairy', 'gluten', 'shellfish', 'fish', 'eggs', 'soybeans'];
 const DIET_ORDER = ['vegetarian', 'vegan', 'kosher', 'halal'];
 const STORAGE_LOCATION_ALLOWED = new Set(['pantry', 'fridge', 'freezer', 'other']);
+const PLACEHOLDER_INVENTORY_OWNERS = new Set(['MoonMan', 'Gronk', 'Shared', 'Quandale', 'Babayaga']);
 
 /** Filter modal: "nut-free" etc. → stored allergen token on items. */
 const FREE_FROM_TO_ALLERGEN = {
@@ -49,6 +50,62 @@ function normalizeStorageLocation(val) {
     const s = String(val).trim().toLowerCase();
     if (s === '') return '';
     return STORAGE_LOCATION_ALLOWED.has(s) ? s : '';
+}
+
+/** Same stored shape as items created in addItem(); null if name missing. */
+function inventoryItemFromImport(raw) {
+    const name = String(raw?.name ?? '').trim();
+    if (!name) return null;
+    const ownerRaw = String(raw?.owner ?? '').trim();
+    const owner = PLACEHOLDER_INVENTORY_OWNERS.has(ownerRaw) ? ownerRaw : 'Shared';
+    const allergenSet = new Set(
+        (Array.isArray(raw?.allergens) ? raw.allergens : [])
+            .map((x) => String(x).trim().toLowerCase())
+            .filter(Boolean)
+    );
+    const allergens = ALLERGEN_ORDER.filter((a) => allergenSet.has(a));
+    const dietSet = new Set(
+        (Array.isArray(raw?.diets) ? raw.diets : [])
+            .map((x) => String(x).trim().toLowerCase())
+            .filter(Boolean)
+    );
+    const diets = DIET_ORDER.filter((d) => dietSet.has(d));
+    const addedAt =
+        typeof raw?.addedAt === 'number' && Number.isFinite(raw.addedAt) ? raw.addedAt : Date.now();
+    return {
+        name,
+        amount: String(raw?.amount ?? ''),
+        units: String(raw?.units ?? ''),
+        owner,
+        expiration: String(raw?.expiration ?? ''),
+        allergens,
+        diets,
+        storageLocation: normalizeStorageLocation(raw?.storageLocation),
+        addedAt
+    };
+}
+
+function updateAddPlaceholderItemsButtonVisibility() {
+    const btn = document.getElementById('add-placeholder-items');
+    if (!btn) return;
+    if (getInventoryArray().length === 0) btn.classList.remove('hidden');
+    else btn.classList.add('hidden');
+}
+
+async function addPlaceholderInventoryItems() {
+    if (getInventoryArray().length > 0) return;
+    const res = await fetch('../assets/placeholder_inventory_data.json');
+    if (!res.ok) throw new Error(`Failed to load placeholder data (${res.status})`);
+    const data = await res.json();
+    const rows = Array.isArray(data) ? data : [];
+    const next = [];
+    for (const raw of rows) {
+        const item = inventoryItemFromImport(raw);
+        if (item) next.push(item);
+    }
+    if (next.length === 0) return;
+    localStorage.setItem('inventory', JSON.stringify(next));
+    displayData();
 }
 
 function getOrderedChecklistSelection(containerId, orderList) {
@@ -497,6 +554,7 @@ function displayData() {
         table.innerHTML += row;
     });
     updateInventoryFilterSummary();
+    updateAddPlaceholderItemsButtonVisibility();
 }
 
 document.getElementById('to-search').addEventListener('input', displayData);
@@ -543,6 +601,10 @@ table.addEventListener('click', (e) => {
     const tr = cell.closest('tr');
     if (!tr || tr.dataset.rowIndex === undefined) return;
     openEditModal(Number(tr.dataset.rowIndex));
+});
+
+document.getElementById('add-placeholder-items')?.addEventListener('click', () => {
+    addPlaceholderInventoryItems().catch(() => {});
 });
 
 displayData();

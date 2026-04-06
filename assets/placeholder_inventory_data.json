@@ -1,0 +1,222 @@
+[
+  {
+    "name": "Whole milk",
+    "amount": "1",
+    "units": "gal",
+    "owner": "MoonMan",
+    "expiration": "05/12/2026",
+    "allergens": ["dairy"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773162000000
+  },
+  {
+    "name": "Large eggs",
+    "amount": "12",
+    "units": "count",
+    "owner": "Gronk",
+    "expiration": "04/28/2026",
+    "allergens": ["eggs"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773162120000
+  },
+  {
+    "name": "Sandwich bread",
+    "amount": "1",
+    "units": "loaf",
+    "owner": "Shared",
+    "expiration": "04/18/2026",
+    "allergens": ["gluten", "eggs"],
+    "diets": [],
+    "storageLocation": "pantry",
+    "addedAt": 1773162240000
+  },
+  {
+    "name": "Peanut butter",
+    "amount": "1",
+    "units": "jar",
+    "owner": "Quandale",
+    "expiration": "11/01/2026",
+    "allergens": ["nuts"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "pantry",
+    "addedAt": 1773162360000
+  },
+  {
+    "name": "Cheddar cheese",
+    "amount": "8",
+    "units": "oz",
+    "owner": "Babayaga",
+    "expiration": "06/03/2026",
+    "allergens": ["dairy"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773162480000
+  },
+  {
+    "name": "Frozen peas",
+    "amount": "2",
+    "units": "bags",
+    "owner": "Shared",
+    "expiration": "03/15/2027",
+    "allergens": [],
+    "diets": ["vegan", "vegetarian", "kosher"],
+    "storageLocation": "freezer",
+    "addedAt": 1773162600000
+  },
+  {
+    "name": "Chicken breasts",
+    "amount": "3",
+    "units": "lbs",
+    "owner": "MoonMan",
+    "expiration": "04/10/2026",
+    "allergens": [],
+    "diets": ["halal"],
+    "storageLocation": "fridge",
+    "addedAt": 1773162720000
+  },
+  {
+    "name": "Soy sauce",
+    "amount": "1",
+    "units": "bottle",
+    "owner": "Gronk",
+    "expiration": "09/20/2027",
+    "allergens": ["soybeans", "gluten"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "pantry",
+    "addedAt": 1773162840000
+  },
+  {
+    "name": "Frozen shrimp",
+    "amount": "1",
+    "units": "lb",
+    "owner": "Quandale",
+    "expiration": "08/01/2026",
+    "allergens": ["shellfish"],
+    "diets": [],
+    "storageLocation": "freezer",
+    "addedAt": 1773162960000
+  },
+  {
+    "name": "Salmon fillet",
+    "amount": "1.5",
+    "units": "lbs",
+    "owner": "Babayaga",
+    "expiration": "04/08/2026",
+    "allergens": ["fish"],
+    "diets": [],
+    "storageLocation": "fridge",
+    "addedAt": 1773163080000
+  },
+  {
+    "name": "Salted butter",
+    "amount": "1",
+    "units": "lb",
+    "owner": "MoonMan",
+    "expiration": "07/14/2026",
+    "allergens": ["dairy"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773163200000
+  },
+  {
+    "name": "Spaghetti",
+    "amount": "2",
+    "units": "boxes",
+    "owner": "Shared",
+    "expiration": "12/31/2027",
+    "allergens": ["gluten"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "pantry",
+    "addedAt": 1773163320000
+  },
+  {
+    "name": "Long grain rice",
+    "amount": "5",
+    "units": "lbs",
+    "owner": "Gronk",
+    "expiration": "10/01/2027",
+    "allergens": [],
+    "diets": ["vegan", "vegetarian", "kosher", "halal"],
+    "storageLocation": "pantry",
+    "addedAt": 1773163440000
+  },
+  {
+    "name": "Orange juice",
+    "amount": "64",
+    "units": "fl oz",
+    "owner": "Quandale",
+    "expiration": "04/22/2026",
+    "allergens": [],
+    "diets": ["vegetarian", "vegan"],
+    "storageLocation": "fridge",
+    "addedAt": 1773163560000
+  },
+  {
+    "name": "Greek yogurt",
+    "amount": "4",
+    "units": "cups",
+    "owner": "Babayaga",
+    "expiration": "04/30/2026",
+    "allergens": ["dairy"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773163680000
+  },
+  {
+    "name": "Almond milk",
+    "amount": "1",
+    "units": "gal",
+    "owner": "MoonMan",
+    "expiration": "05/05/2026",
+    "allergens": ["nuts"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773163800000
+  },
+  {
+    "name": "Firm tofu",
+    "amount": "2",
+    "units": "blocks",
+    "owner": "Shared",
+    "expiration": "04/25/2026",
+    "allergens": ["soybeans"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773163920000
+  },
+  {
+    "name": "Mayonnaise",
+    "amount": "1",
+    "units": "jar",
+    "owner": "Gronk",
+    "expiration": "01/10/2027",
+    "allergens": ["eggs"],
+    "diets": ["vegetarian"],
+    "storageLocation": "fridge",
+    "addedAt": 1773164040000
+  },
+  {
+    "name": "Saltine crackers",
+    "amount": "1",
+    "units": "box",
+    "owner": "Quandale",
+    "expiration": "06/20/2026",
+    "allergens": ["gluten"],
+    "diets": ["vegan", "vegetarian"],
+    "storageLocation": "pantry",
+    "addedAt": 1773164160000
+  },
+  {
+    "name": "Vanilla ice cream",
+    "amount": "1",
+    "units": "pint",
+    "owner": "Babayaga",
+    "expiration": "09/01/2026",
+    "allergens": ["dairy", "eggs"],
+    "diets": ["vegetarian"],
+    "storageLocation": "freezer",
+    "addedAt": 1773164280000
+  }
+]
