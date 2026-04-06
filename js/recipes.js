@@ -10,6 +10,64 @@ const LS_KEY = 'recipes';
 const ALLERGEN_ORDER = ['nuts', 'dairy', 'gluten', 'shellfish', 'fish', 'eggs', 'soybeans'];
 const DIET_ORDER = ['vegetarian', 'vegan', 'kosher', 'halal'];
 
+const FREE_FROM_TO_ALLERGEN = {
+    'nut-free': 'nuts',
+    'dairy-free': 'dairy',
+    'gluten-free': 'gluten',
+    'shellfish-free': 'shellfish',
+    'fish-free': 'fish',
+    'egg-free': 'eggs',
+    'soy-free': 'soybeans'
+};
+
+/** In-memory only; reset on full page reload. */
+let appliedRecipeFilters = {
+    excludeAllergens: [],
+    requireDiets: []
+};
+
+function getItemAllergenTokens(item) {
+    const val = item.allergens;
+    let arr = [];
+    if (Array.isArray(val)) {
+        arr = val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    } else if (typeof val === 'string' && val.trim()) {
+        arr = val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    const expanded = [];
+    arr.forEach((x) => {
+        if (x === 'dairygluten') {
+            expanded.push('dairy', 'gluten');
+        } else {
+            expanded.push(x);
+        }
+    });
+    return expanded;
+}
+
+function getItemDietTokens(item) {
+    const val = item.diets;
+    if (Array.isArray(val)) {
+        return val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    if (typeof val === 'string' && val.trim()) {
+        return val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    return [];
+}
+
+function passesExcludeAllergenFilter(item, excludeAllergens) {
+    if (!excludeAllergens.length) return true;
+    const tokens = new Set(getItemAllergenTokens(item));
+    return !excludeAllergens.some((a) => tokens.has(a));
+}
+
+function passesDietRequireFilter(item, requireDiets) {
+    if (!requireDiets.length) return true;
+    const set = new Set(getItemDietTokens(item));
+    return requireDiets.every((d) => set.has(d));
+}
+
 function getOrderedChecklistSelection(containerId, orderList) {
     const el = document.getElementById(containerId);
     if (!el) return [];
@@ -49,11 +107,15 @@ function positionEditRowTooltip(e) {
 }
 
 /** Pairs items with their index in localStorage order (for edit/delete after sort/filter). */
-function getFilteredSortedRows(list, prefix, sortMode) {
+function getFilteredSortedRows(list, prefix, sortMode, recipeFilters) {
+    const filters = recipeFilters ?? appliedRecipeFilters;
     const withIdx = list.map((item, index) => ({ item, index }));
     const filtered = withIdx.filter(({ item }) => {
         const nameLower = String(item.name ?? '').toLowerCase();
-        return !prefix || nameLower.startsWith(prefix);
+        if (prefix && !nameLower.startsWith(prefix)) return false;
+        if (!passesExcludeAllergenFilter(item, filters.excludeAllergens)) return false;
+        if (!passesDietRequireFilter(item, filters.requireDiets)) return false;
+        return true;
     });
 
     const time = (item) => (typeof item.addedAt === 'number' && Number.isFinite(item.addedAt) ? item.addedAt : 0);
@@ -93,6 +155,8 @@ function getRecipesArray() {
 
 const fadeAndAddItem = document.getElementById('fadeAndAddItem');
 const fadeAndEditItem = document.getElementById('fadeAndEditItem');
+const fadeAndFilterRecipes = document.getElementById('fadeAndFilterRecipes');
+const filterRecipeForm = document.getElementById('filterRecipeForm');
 const clearRecipesBtn = document.getElementById('clearRecipesBtn');
 const addItemBtn = document.getElementById('addItemBtn');
 const submitBtn = document.getElementById('submitBtn');
@@ -116,6 +180,7 @@ clearRecipesBtn.addEventListener('click', () => {
 
 addItemBtn.addEventListener('click', () => {
     closeEditItem();
+    closeFilterRecipesModal();
     fadeAndAddItem.classList.remove('hidden');
     hideRequireNameError();
     requestAnimationFrame(() => toAddNameInput.focus());
@@ -132,13 +197,89 @@ const closeEditItem = () => {
     hideRequireNameErrorEdit();
 };
 
+function closeFilterRecipesModal() {
+    if (fadeAndFilterRecipes) fadeAndFilterRecipes.classList.add('hidden');
+}
+
+function readExcludeAllergensFromRecipeFilterModal() {
+    const el = document.getElementById('filterRecipesAllergensChecklist');
+    if (!el) return [];
+    const out = [];
+    el.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => {
+        const token = FREE_FROM_TO_ALLERGEN[cb.value];
+        if (token) out.push(token);
+    });
+    return out;
+}
+
+function syncRecipeFilterModalFromApplied() {
+    const allergenEl = document.getElementById('filterRecipesAllergensChecklist');
+    if (allergenEl) {
+        const exclude = new Set(appliedRecipeFilters.excludeAllergens);
+        allergenEl.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            const token = FREE_FROM_TO_ALLERGEN[cb.value];
+            cb.checked = Boolean(token && exclude.has(token));
+        });
+    }
+    setChecklistFromStoredArray('filterRecipesDietsChecklist', appliedRecipeFilters.requireDiets, DIET_ORDER);
+}
+
+function updateRecipesFilterSummary() {
+    const el = document.getElementById('recipesFilterSummary');
+    if (!el) return;
+    const parts = [];
+    if (appliedRecipeFilters.excludeAllergens.length) {
+        parts.push(`<b>Free From:</b> ${appliedRecipeFilters.excludeAllergens.join(', ')}<br>`);
+    }
+    if (appliedRecipeFilters.requireDiets.length) {
+        parts.push(`<b>Diets:</b> ${appliedRecipeFilters.requireDiets.join(', ')}`);
+    }
+    if (parts.length === 0) {
+        el.textContent = '';
+        el.classList.add('hidden');
+    } else {
+        el.innerHTML = parts.join('');
+        el.classList.remove('hidden');
+    }
+}
+
+function applyRecipeFiltersFromModal() {
+    appliedRecipeFilters = {
+        excludeAllergens: readExcludeAllergensFromRecipeFilterModal(),
+        requireDiets: getOrderedChecklistSelection('filterRecipesDietsChecklist', DIET_ORDER)
+    };
+    displayData();
+    closeFilterRecipesModal();
+}
+
+function clearAllRecipeFilters() {
+    appliedRecipeFilters = {
+        excludeAllergens: [],
+        requireDiets: []
+    };
+    syncRecipeFilterModalFromApplied();
+    displayData();
+}
+
 cancelBtn.addEventListener('click', closeAddItem);
 cancelEditBtn.addEventListener('click', closeEditItem);
+
+if (filterRecipeForm) {
+    filterRecipeForm.addEventListener('submit', (e) => e.preventDefault());
+}
+document.getElementById('recipeFilterModalCancelBtn')?.addEventListener('click', closeFilterRecipesModal);
+document.getElementById('recipeFilterModalApplyBtn')?.addEventListener('click', applyRecipeFiltersFromModal);
+document.getElementById('recipeFilterModalClearAllBtn')?.addEventListener('click', clearAllRecipeFilters);
+document.getElementById('filter-btn')?.addEventListener('click', () => {
+    closeAddItem();
+    closeEditItem();
+    syncRecipeFilterModalFromApplied();
+    if (fadeAndFilterRecipes) fadeAndFilterRecipes.classList.remove('hidden');
+});
 
 form.addEventListener('submit', (e) => e.preventDefault());
 editItemForm.addEventListener('submit', (e) => e.preventDefault());
 
-/** Enter moves focus for single-line fields only (textareas keep Enter for newlines). */
 const addEnterNext = {
     toAddName: 'toAddDescription'
 };
@@ -209,6 +350,7 @@ function openEditModal(rowIndex) {
     document.getElementById('toEditRating').value = item.rating ?? '';
     hideRequireNameErrorEdit();
     closeAddItem();
+    closeFilterRecipesModal();
     fadeAndEditItem.classList.remove('hidden');
     requestAnimationFrame(() => toEditNameInput.focus());
 }
@@ -300,6 +442,7 @@ function displayData() {
         `;
         table.innerHTML += row;
     });
+    updateRecipesFilterSummary();
 }
 
 document.getElementById('to-search').addEventListener('input', displayData);

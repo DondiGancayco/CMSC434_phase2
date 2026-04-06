@@ -9,6 +9,24 @@ const ALLERGEN_ORDER = ['nuts', 'dairy', 'gluten', 'shellfish', 'fish', 'eggs', 
 const DIET_ORDER = ['vegetarian', 'vegan', 'kosher', 'halal'];
 const STORAGE_LOCATION_ALLOWED = new Set(['pantry', 'fridge', 'freezer', 'other']);
 
+/** Filter modal: "nut-free" etc. → stored allergen token on items. */
+const FREE_FROM_TO_ALLERGEN = {
+    'nut-free': 'nuts',
+    'dairy-free': 'dairy',
+    'gluten-free': 'gluten',
+    'shellfish-free': 'shellfish',
+    'fish-free': 'fish',
+    'egg-free': 'eggs',
+    'soy-free': 'soybeans'
+};
+
+/** In-memory only; reset on full page reload. */
+let appliedInventoryFilters = {
+    excludeAllergens: [],
+    requireDiets: [],
+    storageMode: 'all'
+};
+
 /** @returns {'' | 'pantry' | 'fridge' | 'freezer' | 'other'} */
 function normalizeStorageLocation(val) {
     if (val === undefined || val === null) return '';
@@ -24,6 +42,60 @@ function getOrderedChecklistSelection(containerId, orderList) {
         Array.from(el.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value)
     );
     return orderList.filter((v) => selected.has(v));
+}
+
+function getItemAllergenTokens(item) {
+    const val = item.allergens;
+    let arr = [];
+    if (Array.isArray(val)) {
+        arr = val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    } else if (typeof val === 'string' && val.trim()) {
+        arr = val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    const expanded = [];
+    arr.forEach((x) => {
+        if (x === 'dairygluten') {
+            expanded.push('dairy', 'gluten');
+        } else {
+            expanded.push(x);
+        }
+    });
+    return expanded;
+}
+
+function getItemDietTokens(item) {
+    const val = item.diets;
+    if (Array.isArray(val)) {
+        return val.map(String).map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    if (typeof val === 'string' && val.trim()) {
+        return val.split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+    }
+    return [];
+}
+
+function passesExcludeAllergenFilter(item, excludeAllergens) {
+    if (!excludeAllergens.length) return true;
+    const tokens = new Set(getItemAllergenTokens(item));
+    return !excludeAllergens.some((a) => tokens.has(a));
+}
+
+function passesDietRequireFilter(item, requireDiets) {
+    if (!requireDiets.length) return true;
+    const set = new Set(getItemDietTokens(item));
+    return requireDiets.every((d) => set.has(d));
+}
+
+function passesStorageFilterForInventory(item, storageMode) {
+    if (storageMode === 'all') return true;
+    const loc = normalizeStorageLocation(item.storageLocation);
+    if (storageMode === '') {
+        return loc === '';
+    }
+    if (storageMode === 'misc') {
+        return loc === 'other' || loc === 'misc';
+    }
+    return loc === storageMode;
 }
 
 function setChecklistFromStoredArray(containerId, val, orderList) {
@@ -56,11 +128,16 @@ function positionEditRowTooltip(e) {
 }
 
 /** Pairs items with their index in localStorage order (for edit/delete after sort/filter). */
-function getFilteredSortedRows(inv, prefix, sortMode) {
+function getFilteredSortedRows(inv, prefix, sortMode, invFilters) {
+    const filters = invFilters ?? appliedInventoryFilters;
     const withIdx = inv.map((item, index) => ({ item, index }));
     const filtered = withIdx.filter(({ item }) => {
         const nameLower = String(item.name ?? '').toLowerCase();
-        return !prefix || nameLower.startsWith(prefix);
+        if (prefix && !nameLower.startsWith(prefix)) return false;
+        if (!passesExcludeAllergenFilter(item, filters.excludeAllergens)) return false;
+        if (!passesDietRequireFilter(item, filters.requireDiets)) return false;
+        if (!passesStorageFilterForInventory(item, filters.storageMode)) return false;
+        return true;
     });
 
     const time = (item) => (typeof item.addedAt === 'number' && Number.isFinite(item.addedAt) ? item.addedAt : 0);
@@ -100,6 +177,8 @@ function getInventoryArray() {
 
 const fadeAndAddItem = document.getElementById('fadeAndAddItem');
 const fadeAndEditItem = document.getElementById('fadeAndEditItem');
+const fadeAndFilterInventory = document.getElementById('fadeAndFilterInventory');
+const filterInventoryForm = document.getElementById('filterInventoryForm');
 const clearInventoryBtn = document.getElementById('clearInventoryBtn');
 const addItemBtn = document.getElementById('addItemBtn');
 const submitBtn = document.getElementById('submitBtn');
@@ -122,6 +201,7 @@ clearInventoryBtn.addEventListener('click', () => {
 });
 addItemBtn.addEventListener('click', () => {
     closeEditItem();
+    closeFilterInventoryModal();
     fadeAndAddItem.classList.remove('hidden');
     hideRequireNameError();
     requestAnimationFrame(() => toAddNameInput.focus());
@@ -138,8 +218,109 @@ const closeEditItem = () => {
     hideRequireNameErrorEdit();
 };
 
+function closeFilterInventoryModal() {
+    if (fadeAndFilterInventory) fadeAndFilterInventory.classList.add('hidden');
+}
+
+function readExcludeAllergensFromFilterModal() {
+    const el = document.getElementById('filterAllergensChecklist');
+    if (!el) return [];
+    const out = [];
+    el.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => {
+        const token = FREE_FROM_TO_ALLERGEN[cb.value];
+        if (token) out.push(token);
+    });
+    return out;
+}
+
+function readStorageModeFromFilterModal() {
+    const r = document.querySelector('#filterInventoryForm input[name="filterStorage"]:checked');
+    if (!r || r.value === 'all') return 'all';
+    if (r.value === 'no_selection') return '';
+    return r.value;
+}
+
+function syncFilterModalFromApplied() {
+    const allergenEl = document.getElementById('filterAllergensChecklist');
+    if (allergenEl) {
+        const exclude = new Set(appliedInventoryFilters.excludeAllergens);
+        allergenEl.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+            const token = FREE_FROM_TO_ALLERGEN[cb.value];
+            cb.checked = Boolean(token && exclude.has(token));
+        });
+    }
+    setChecklistFromStoredArray('filterDietsChecklist', appliedInventoryFilters.requireDiets, DIET_ORDER);
+    const mode = appliedInventoryFilters.storageMode;
+    const radioValue = mode === 'all' ? 'all' : mode === '' ? 'no_selection' : mode;
+    const radio = document.querySelector(
+        `#filterInventoryForm input[name="filterStorage"][value="${radioValue}"]`
+    );
+    if (radio) radio.checked = true;
+}
+
+function updateInventoryFilterSummary() {
+    const el = document.getElementById('inventoryFilterSummary');
+    if (!el) return;
+    const parts = [];
+    if (appliedInventoryFilters.excludeAllergens.length) {
+        parts.push(`<b>Free From:</b> ${appliedInventoryFilters.excludeAllergens.join(', ')}<br>`);
+    }
+    if (appliedInventoryFilters.requireDiets.length) {
+        parts.push(`<b>Diets:</b> ${appliedInventoryFilters.requireDiets.join(', ')}<br>`);
+    }
+    if (appliedInventoryFilters.storageMode !== 'all') {
+        const locLabel =
+            appliedInventoryFilters.storageMode === ''
+                ? 'no selection'
+                : appliedInventoryFilters.storageMode === 'misc'
+                  ? 'misc'
+                  : appliedInventoryFilters.storageMode;
+        parts.push(`<b>Location:</b> ${locLabel}`);
+    }
+    if (parts.length === 0) {
+        el.textContent = '';
+        el.classList.add('hidden');
+    } else {
+        el.innerHTML = parts.join('');
+        el.classList.remove('hidden');
+    }
+}
+
+function applyInventoryFiltersFromModal() {
+    appliedInventoryFilters = {
+        excludeAllergens: readExcludeAllergensFromFilterModal(),
+        requireDiets: getOrderedChecklistSelection('filterDietsChecklist', DIET_ORDER),
+        storageMode: readStorageModeFromFilterModal()
+    };
+    displayData();
+    closeFilterInventoryModal();
+}
+
+function clearAllInventoryFilters() {
+    appliedInventoryFilters = {
+        excludeAllergens: [],
+        requireDiets: [],
+        storageMode: 'all'
+    };
+    syncFilterModalFromApplied();
+    displayData();
+}
+
 cancelBtn.addEventListener('click', closeAddItem);
 cancelEditBtn.addEventListener('click', closeEditItem);
+
+if (filterInventoryForm) {
+    filterInventoryForm.addEventListener('submit', (e) => e.preventDefault());
+}
+document.getElementById('filterModalCancelBtn')?.addEventListener('click', closeFilterInventoryModal);
+document.getElementById('filterModalApplyBtn')?.addEventListener('click', applyInventoryFiltersFromModal);
+document.getElementById('filterModalClearAllBtn')?.addEventListener('click', clearAllInventoryFilters);
+document.getElementById('filter-btn')?.addEventListener('click', () => {
+    closeAddItem();
+    closeEditItem();
+    syncFilterModalFromApplied();
+    if (fadeAndFilterInventory) fadeAndFilterInventory.classList.remove('hidden');
+});
 
 form.addEventListener('submit', (e) => e.preventDefault());
 editItemForm.addEventListener('submit', (e) => e.preventDefault());
@@ -202,6 +383,7 @@ function openEditModal(rowIndex) {
     document.getElementById('toEditStorageLocation').value = normalizeStorageLocation(item.storageLocation);
     hideRequireNameErrorEdit();
     closeAddItem();
+    closeFilterInventoryModal();
     fadeAndEditItem.classList.remove('hidden');
     requestAnimationFrame(() => toEditNameInput.focus());
 }
@@ -294,6 +476,7 @@ function displayData() {
         `;
         table.innerHTML += row;
     });
+    updateInventoryFilterSummary();
 }
 
 document.getElementById('to-search').addEventListener('input', displayData);

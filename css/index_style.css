@@ -75,6 +75,7 @@ h1{
 }
 #filter-btn:hover{
     background-color: var(--hover-button-bg);
+    color: var(--primary-bg);
 }
 #filter-sort-add, #items{
     border: var(--light-border) 3px solid;
@@ -208,24 +209,28 @@ th{
 }
 
 #addItemForm .add-item-row,
-#editItemForm .add-item-row{
+#editItemForm .add-item-row,
+#filterInventoryForm .add-item-row{
     display: flex;
     align-items: center;
     margin-bottom: 8px;
 }
 
 #addItemForm .add-item-row-stacked,
-#editItemForm .add-item-row-stacked{
+#editItemForm .add-item-row-stacked,
+#filterInventoryForm .add-item-row-stacked{
     align-items: flex-start;
 }
 
 #addItemForm .add-item-row label:not(.checklist-option),
-#editItemForm .add-item-row label:not(.checklist-option){
+#editItemForm .add-item-row label:not(.checklist-option),
+#filterInventoryForm .add-item-row label:not(.checklist-option){
     width: 105px;
 }
 
 #addItemForm .checklist-label,
-#editItemForm .checklist-label{
+#editItemForm .checklist-label,
+#filterInventoryForm .checklist-label{
     width: 105px;
     flex-shrink: 0;
     font-size: 14pt;
@@ -235,7 +240,8 @@ th{
 }
 
 #addItemForm .checklist-options,
-#editItemForm .checklist-options{
+#editItemForm .checklist-options,
+#filterInventoryForm .checklist-options{
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -246,7 +252,8 @@ th{
 }
 
 #addItemForm .checklist-option,
-#editItemForm .checklist-option{
+#editItemForm .checklist-option,
+#filterInventoryForm .checklist-option{
     display: flex;
     align-items: center;
     gap: 0.45rem;
@@ -259,7 +266,8 @@ th{
 }
 
 #addItemForm .add-item-row input:not([type="checkbox"]),
-#editItemForm .add-item-row input:not([type="checkbox"]){
+#editItemForm .add-item-row input:not([type="checkbox"]),
+#filterInventoryForm .add-item-row input:not([type="checkbox"]){
     flex: 1;
     box-sizing: border-box;
     font-size: 14pt;
@@ -271,7 +279,8 @@ th{
 }
 
 #addItemForm .add-item-row select,
-#editItemForm .add-item-row select{
+#editItemForm .add-item-row select,
+#filterInventoryForm .add-item-row select{
     flex: 1;
     box-sizing: border-box;
     font-size: 14pt;
@@ -285,7 +294,8 @@ th{
 }
 
 #addItemForm .add-item-row .checklist-option input[type="checkbox"],
-#editItemForm .add-item-row .checklist-option input[type="checkbox"]{
+#editItemForm .add-item-row .checklist-option input[type="checkbox"],
+#filterInventoryForm .add-item-row .checklist-option input[type="checkbox"]{
     flex: none;
     width: 14px;
     height: 17px;
@@ -301,28 +311,85 @@ th{
 }
 
 #addItemForm input::placeholder,
-#editItemForm input::placeholder{
+#editItemForm input::placeholder,
+#filterInventoryForm input::placeholder{
     font-style: italic;
     font-size: 14pt;
 }
 
 #addItemForm .add-item-actions button,
-#editItemForm .add-item-actions button{
+#editItemForm .add-item-actions button,
+#filterInventoryForm .add-item-actions button{
     font-size: 14pt;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--light-border);
 }
 #submitBtn,
-#submitEditBtn{
+#submitEditBtn,
+#filterModalApplyBtn{
     background-color: var(--button-bg);
     color: white;
     font-weight: bold;
 }
 
 #addItemForm .add-item-actions,
-#editItemForm .add-item-actions{
+#editItemForm .add-item-actions,
+#filterInventoryForm .add-item-actions{
     margin-top: 12px;
+}
+
+.filter-btn-text{
+    font-size: 16pt;
+    padding: 5px;
+}
+
+.inventory-filter-summary{
+    font-size: 14pt;
+    color: #333;
+    max-width: 450px;
+    text-align: left;
+    align-self: center;
+    margin-left: 4px;    
+    padding-top: 5px;
+}
+
+#filterInventoryForm .filter-modal-actions{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+#filterInventoryForm .filter-storage-row .filter-storage-options{
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 1rem;
+    font-size: 14pt;
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#filterInventoryForm .filter-storage-option{
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 0;
+}
+
+#filterInventoryForm .filter-storage-option input[type="radio"]{
+    flex: none;
+    width: 14px;
+    height: 17px;
+    min-width: 14px;
+    min-height: 17px;
+    margin: 0;
+    accent-color: var(--button-bg);
+    cursor: pointer;
 }
 
 .AddItem .add-item-hint{

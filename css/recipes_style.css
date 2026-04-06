@@ -25,9 +25,28 @@
   #storage-area{
       display: flex;
   }
+  #filter-sort{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 12px;
+  }
   #filters{
       display: inline-flex;
       align-items: center;
+  }
+  .filter-btn-text{
+      font-size: 16pt;
+      padding: 5px;
+  }
+  .recipes-filter-summary{
+      font-size: 12pt;
+      color: #333;
+      max-width: 450px;
+      text-align: left;
+      align-self: center;
+      margin-left: 4px;
+      padding-top: 5px;
   }
   #filter-sort-add{
       border-radius: 10px;
@@ -72,6 +91,10 @@
   }
   #addItemBtn:hover{
       background-color: var(--hover-button-bg);
+  }
+  #filter-btn:hover{
+      background-color: var(--hover-button-bg);
+      color: var(--primary-bg);
   }
   #filter-sort-add, #items{
       border: var(--light-border) 3px solid;
@@ -202,9 +225,9 @@
   
   .AddItem {
       border: solid black 3px;
-      position: fixed; top: 5%; left: 2cap;
+      position: fixed; top: 2%; left: 2cap;
       width:510px;
-      max-height: 63vh;
+      max-height: 82vh;
       overflow-y: auto;
       background: white; padding: 20px 30px;
       border-radius: 5px; z-index:11;
@@ -212,19 +235,22 @@
   }
   
   #addItemForm .add-item-row,
-  #editItemForm .add-item-row{
+  #editItemForm .add-item-row,
+  #filterRecipeForm .add-item-row{
       display: flex;
       align-items: center;
       margin-bottom: 8px;
   }
 
   #addItemForm .add-item-row-stacked,
-  #editItemForm .add-item-row-stacked{
+  #editItemForm .add-item-row-stacked,
+  #filterRecipeForm .add-item-row-stacked{
       align-items: flex-start;
   }
 
   #addItemForm .checklist-label,
-  #editItemForm .checklist-label{
+  #editItemForm .checklist-label,
+  #filterRecipeForm .checklist-label{
       width: 105px;
       flex-shrink: 0;
       font-size: 14pt;
@@ -234,7 +260,8 @@
   }
 
   #addItemForm .checklist-options,
-  #editItemForm .checklist-options{
+  #editItemForm .checklist-options,
+  #filterRecipeForm .checklist-options{
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -245,7 +272,8 @@
   }
 
   #addItemForm .checklist-option,
-  #editItemForm .checklist-option{
+  #editItemForm .checklist-option,
+  #filterRecipeForm .checklist-option{
       display: flex;
       align-items: center;
       gap: 0.45rem;
@@ -258,12 +286,14 @@
   }
   
   #addItemForm .add-item-row label:not(.checklist-option),
-  #editItemForm .add-item-row label:not(.checklist-option){
+  #editItemForm .add-item-row label:not(.checklist-option),
+  #filterRecipeForm .add-item-row label:not(.checklist-option){
       width: 125px;
   }
   
   #addItemForm .add-item-row input:not([type="checkbox"]),
-  #editItemForm .add-item-row input:not([type="checkbox"]){
+  #editItemForm .add-item-row input:not([type="checkbox"]),
+  #filterRecipeForm .add-item-row input:not([type="checkbox"]){
       flex: 1;
       box-sizing: border-box;
       font-size: 14pt;
@@ -275,7 +305,8 @@
   }
 
   #addItemForm .add-item-row .checklist-option input[type="checkbox"],
-  #editItemForm .add-item-row .checklist-option input[type="checkbox"]{
+  #editItemForm .add-item-row .checklist-option input[type="checkbox"],
+  #filterRecipeForm .add-item-row .checklist-option input[type="checkbox"]{
       flex: none;
       width: 14px;
       height: 17px;
@@ -307,6 +338,7 @@
   
   #addItemForm input::placeholder,
   #editItemForm input::placeholder,
+  #filterRecipeForm input::placeholder,
   #addItemForm textarea::placeholder,
   #editItemForm textarea::placeholder{
       font-style: italic;
@@ -314,22 +346,32 @@
   }
   
   #addItemForm .add-item-actions button,
-  #editItemForm .add-item-actions button{
+  #editItemForm .add-item-actions button,
+  #filterRecipeForm .add-item-actions button{
       font-size: 14pt;
       padding: 10px;
       border-radius: 5px;
       border: 1px solid var(--light-border);
   }
   #submitBtn,
-  #submitEditBtn{
+  #submitEditBtn,
+  #recipeFilterModalApplyBtn{
       background-color: var(--button-bg);
       color: white;
       font-weight: bold;
   }
   
   #addItemForm .add-item-actions,
-  #editItemForm .add-item-actions{
+  #editItemForm .add-item-actions,
+  #filterRecipeForm .add-item-actions{
       margin-top: 12px;
+  }
+
+  #filterRecipeForm .filter-modal-actions{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 8px;
   }
   
   .AddItem .add-item-hint{

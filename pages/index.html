@@ -24,14 +24,13 @@
       <div id="filter-sort">
         
         <div id="filters">
-
-          <button id="filter-btn">
-            <label id="filters" style="font-size: 16pt; padding: 5px;">Filters</label>
-            <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="filter-symbol" width="35" height="20px"
+          <button type="button" id="filter-btn" aria-haspopup="dialog" aria-controls="fadeAndFilterInventory">
+            <span class="filter-btn-text">Filters</span>
+            <img src="../assets/svgs/filters-2-svgrepo-com.svg" alt="" width="35" height="20"
               id="filter-symbol">
           </button>
-
         </div>
+        <div id="inventoryFilterSummary" class="inventory-filter-summary hidden" aria-live="polite"></div>
 
         <div id="sort">
           <label for="inventory-sort">Sort by:</label>
@@ -74,6 +73,18 @@
               <label for="toAddExpiration">Expiration:</label>
               <input type="text" id="toAddExpiration"placeholder="optional, e.g. 06/01/2026">
             </div>
+            
+            <div class="add-item-row">
+              <label for="toAddStorageLocation">Storage Location:</label>
+              <select id="toAddStorageLocation" name="storageLocation" aria-label="Storage Location">
+                <option value="">no selection (default)</option>
+                <option value="pantry">pantry</option>
+                <option value="fridge">fridge</option>
+                <option value="freezer">freezer</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <br>
             <div class="add-item-row add-item-row-stacked checklist-row">
               <span class="checklist-label" id="add-allergens-legend">Allergens:</span>
               <div id="toAddAllergensChecklist" class="checklist-options" role="group" aria-labelledby="add-allergens-legend">
@@ -86,6 +97,7 @@
                 <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
               </div>
             </div>
+            <hr>
             <div class="add-item-row add-item-row-stacked checklist-row">
               <span class="checklist-label" id="add-diets-legend">Diets:</span>
               <div id="toAddDietsChecklist" class="checklist-options" role="group" aria-labelledby="add-diets-legend">
@@ -95,17 +107,6 @@
                 <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
               </div>
             </div>
-            <div class="add-item-row">
-              <label for="toAddStorageLocation">Storage Location:</label>
-              <select id="toAddStorageLocation" name="storageLocation" aria-label="Storage Location">
-                <option value="">no selection (default)</option>
-                <option value="pantry">pantry</option>
-                <option value="fridge">fridge</option>
-                <option value="freezer">freezer</option>
-                <option value="other">other</option>
-              </select>
-            </div>
-            <br>
             <br>
 
             <div class="add-item-actions">
@@ -139,6 +140,17 @@
               <label for="toEditExpiration">Expiration:</label>
               <input type="text" id="toEditExpiration" placeholder="optional, e.g. 06/01/2026">
             </div>
+            <div class="add-item-row">
+              <label for="toEditStorageLocation">Storage Location:</label>
+              <select id="toEditStorageLocation" name="storageLocation" aria-label="Storage Location">
+                <option value="">no selection (default)</option>
+                <option value="pantry">pantry</option>
+                <option value="fridge">fridge</option>
+                <option value="freezer">freezer</option>
+                <option value="other">other</option>
+              </select>
+            </div>
+            <br>
             <div class="add-item-row add-item-row-stacked checklist-row">
               <span class="checklist-label" id="edit-allergens-legend">Allergens:</span>
               <div id="toEditAllergensChecklist" class="checklist-options" role="group" aria-labelledby="edit-allergens-legend">
@@ -151,6 +163,7 @@
                 <label class="checklist-option"><input type="checkbox" value="soybeans"> soybeans</label>
               </div>
             </div>
+            <hr>
             <div class="add-item-row add-item-row-stacked checklist-row">
               <span class="checklist-label" id="edit-diets-legend">Diets:</span>
               <div id="toEditDietsChecklist" class="checklist-options" role="group" aria-labelledby="edit-diets-legend">
@@ -160,23 +173,62 @@
                 <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
               </div>
             </div>
-            <div class="add-item-row">
-              <label for="toEditStorageLocation">Storage Location:</label>
-              <select id="toEditStorageLocation" name="storageLocation" aria-label="Storage Location">
-                <option value="">no selection (default)</option>
-                <option value="pantry">pantry</option>
-                <option value="fridge">fridge</option>
-                <option value="freezer">freezer</option>
-                <option value="other">other</option>
-              </select>
-            </div>
-            <br>
             <br>
             <div class="add-item-actions">
               <button type="button" id="cancelEditBtn">Cancel</button>
               <button type="button" id="submitEditBtn">Save</button>
             </div>
             <div id="require-name-error-edit" class="hidden require-name-error"><em>Item name is required before saving</em></div>
+            <br>
+          </form>
+        </div>
+      </div>
+
+      <div id="fadeAndFilterInventory" class="hidden" role="dialog" aria-labelledby="filter-inventory-title" aria-modal="true">
+        <div class="fade"></div>
+        <div class="AddItem">
+          <h3 id="filter-inventory-title"><u>Filter inventory</u></h3>
+          <form id="filterInventoryForm">
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="filter-allergens-legend">Allergens:</span>
+              <div id="filterAllergensChecklist" class="checklist-options" role="group" aria-labelledby="filter-allergens-legend">
+                <label class="checklist-option"><input type="checkbox" value="nut-free"> nut-free</label>
+                <label class="checklist-option"><input type="checkbox" value="dairy-free"> dairy-free</label>
+                <label class="checklist-option"><input type="checkbox" value="gluten-free"> gluten-free</label>
+                <label class="checklist-option"><input type="checkbox" value="shellfish-free"> shellfish-free</label>
+                <label class="checklist-option"><input type="checkbox" value="fish-free"> fish-free</label>
+                <label class="checklist-option"><input type="checkbox" value="egg-free"> egg-free</label>
+                <label class="checklist-option"><input type="checkbox" value="soy-free"> soy-free</label>
+              </div>
+            </div>
+            <hr>
+            <div class="add-item-row add-item-row-stacked checklist-row">
+              <span class="checklist-label" id="filter-diets-legend">Diets:</span>
+              <div id="filterDietsChecklist" class="checklist-options filter-diets-checklist" role="group" aria-labelledby="filter-diets-legend">
+                <label class="checklist-option"><input type="checkbox" value="vegetarian"> vegetarian</label>
+                <label class="checklist-option"><input type="checkbox" value="vegan"> vegan</label>
+                <label class="checklist-option"><input type="checkbox" value="kosher"> Kosher</label>
+                <label class="checklist-option"><input type="checkbox" value="halal"> Halal</label>
+              </div>
+            </div>
+            <hr>
+            <div class="add-item-row add-item-row-stacked filter-storage-row">
+              <span class="checklist-label" id="filter-storage-legend">Storage location:</span>
+              <div class="filter-storage-options" role="radiogroup" aria-labelledby="filter-storage-legend">
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="all" checked> all</label>
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="no_selection"> no selection</label>
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="pantry"> pantry</label>
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="fridge"> fridge</label>
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="freezer"> freezer</label>
+                <label class="filter-storage-option"><input type="radio" name="filterStorage" value="misc"> misc</label>
+              </div>
+            </div>
+            <br>
+            <div class="add-item-actions filter-modal-actions">
+              <button type="button" id="filterModalCancelBtn">Cancel</button>
+              <button type="button" id="filterModalApplyBtn">Apply</button>
+              <button type="button" id="filterModalClearAllBtn">Clear All</button>
+            </div>
             <br>
           </form>
         </div>
