@@ -63,8 +63,31 @@
               <textarea id="toAddDescription" rows="3"></textarea>
             </div>
             <div class="add-item-row add-item-row-stacked">
+<<<<<<< Updated upstream
               <label for="toAddIngredients">Ingredients:</label>
               <textarea id="toAddIngredients" rows="3"></textarea>
+=======
+              <label class="recipe-ingredients-label" id="add-ingredients-legend">Ingredients:</label>
+              <div class="recipe-ingredients-wrap">
+                <div class="recipe-ingredient-input-area">
+                  <input type="text" class="recipe-ingredient-name" placeholder="Ingredient name">
+                  <input type="number" class="recipe-ingredient-qty" value="1" min="0" step="any">
+                  <select class="recipe-ingredient-unit">
+                    <option value="count">count</option>
+                    <option value="lbs">lbs.</option>
+                    <option value="fl. oz.">fl. oz.</option>
+                  </select>
+                  <button type="button" id="addRecipeIngredientRowBtn" class="recipe-add-ingredient-btn" aria-label="Add ingredient">+</button>
+                </div>
+                <div id="toAddIngredientsList" class="recipe-ingredients-list" role="group" aria-labelledby="add-ingredients-legend"></div>
+                <div class="recipe-add-to-grocery-row">
+                  <select class="recipe-grocery-list-select" aria-label="Select grocery list">
+                    <option value="">Select list…</option>
+                  </select>
+                  <button type="button" class="recipe-add-to-grocery-btn">Add to Groceries</button>
+                </div>
+              </div>
+>>>>>>> Stashed changes
             </div>
             <div class="add-item-row add-item-row-stacked">
               <label for="toAddSteps">Steps:</label>
@@ -122,8 +145,31 @@
               <textarea id="toEditDescription" rows="3"></textarea>
             </div>
             <div class="add-item-row add-item-row-stacked">
+<<<<<<< Updated upstream
               <label for="toEditIngredients">Ingredients:</label>
               <textarea id="toEditIngredients" rows="3"></textarea>
+=======
+              <label class="recipe-ingredients-label" id="edit-ingredients-legend">Ingredients:</label>
+              <div class="recipe-ingredients-wrap">
+                <div class="recipe-ingredient-input-area">
+                  <input type="text" class="recipe-ingredient-name" placeholder="Ingredient name">
+                  <input type="number" class="recipe-ingredient-qty" value="1" min="0" step="any">
+                  <select class="recipe-ingredient-unit">
+                    <option value="count">count</option>
+                    <option value="lbs">lbs.</option>
+                    <option value="fl. oz.">fl. oz.</option>
+                  </select>
+                  <button type="button" id="addEditRecipeIngredientRowBtn" class="recipe-add-ingredient-btn" aria-label="Add ingredient">+</button>
+                </div>
+                <div id="toEditIngredientsList" class="recipe-ingredients-list" role="group" aria-labelledby="edit-ingredients-legend"></div>
+                <div class="recipe-add-to-grocery-row">
+                  <select class="recipe-grocery-list-select" aria-label="Select grocery list">
+                    <option value="">Select list…</option>
+                  </select>
+                  <button type="button" class="recipe-add-to-grocery-btn">Add to Groceries</button>
+                </div>
+              </div>
+>>>>>>> Stashed changes
             </div>
             <div class="add-item-row add-item-row-stacked">
               <label for="toEditSteps">Steps:</label>

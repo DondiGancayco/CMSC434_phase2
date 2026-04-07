@@ -20,6 +20,199 @@ const FREE_FROM_TO_ALLERGEN = {
     'soy-free': 'soybeans'
 };
 
+/**
+ * Canonical ingredient: { name, quantity, unit }.
+ * quantity is a finite number (defaults to 1). unit defaults to "count".
+ */
+function coalesceIngredientEntry(raw) {
+    if (raw == null) return null;
+    if (typeof raw === 'string') {
+        const t = raw.trim();
+        if (!t) return null;
+        return { name: t, quantity: 1, unit: 'count' };
+    }
+    if (typeof raw === 'object') {
+        const name = String(raw.name ?? '').trim();
+        if (!name) return null;
+        let q = raw.quantity;
+        if (q === undefined || q === '') q = 1;
+        const n = Number(q);
+        const quantity = Number.isFinite(n) ? n : 1;
+        const unit = String(raw.unit ?? 'count').trim() || 'count';
+        return { name, quantity, unit };
+    }
+    return null;
+}
+
+/** Normalize persisted `ingredients`: array of objects, legacy string, or missing → array. */
+function normalizeStoredIngredients(val) {
+    if (val == null || val === '') return [];
+    if (Array.isArray(val)) {
+        return val.map(coalesceIngredientEntry).filter(Boolean);
+    }
+    if (typeof val === 'string') {
+        return val
+            .split(/\r?\n/)
+            .map((l) => l.trim())
+            .filter(Boolean)
+            .map(coalesceIngredientEntry)
+            .filter(Boolean);
+    }
+    return [];
+}
+
+/** Match [grocery_list.html](pages/grocery_list.html) unit values for interoperability. */
+const INGREDIENT_UNITS = [
+    { value: 'count', label: 'count' },
+    { value: 'lbs', label: 'lbs.' },
+    { value: 'fl. oz.', label: 'fl. oz.' }
+];
+
+function createIngredientDisplayItem(ing) {
+    const entry = coalesceIngredientEntry(ing);
+    if (!entry) return null;
+    const { name, quantity, unit } = entry;
+    const unitLabel = INGREDIENT_UNITS.find((u) => u.value === unit)?.label ?? unit;
+
+    const item = document.createElement('div');
+    item.className = 'recipe-ingredient-item';
+    item.dataset.name = name;
+    item.dataset.qty = String(quantity);
+    item.dataset.unit = unit;
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'recipe-ingredient-text';
+    const bold = document.createElement('b');
+    bold.textContent = name;
+    textSpan.appendChild(bold);
+    textSpan.appendChild(document.createTextNode(` (${quantity} ${unitLabel})`));
+
+    const rm = document.createElement('button');
+    rm.type = 'button';
+    rm.className = 'recipe-ingredient-remove';
+    rm.setAttribute('aria-label', 'Remove ingredient');
+    rm.textContent = '\u00d7';
+
+    item.appendChild(textSpan);
+    item.appendChild(rm);
+
+    item.addEventListener('click', (e) => {
+        if (e.target.closest('.recipe-ingredient-remove')) return;
+        item.classList.toggle('recipe-ingredient-selected');
+    });
+
+    return item;
+}
+
+function mergeOrAppendItem(listName, name, qty, unit) {
+    const lists = JSON.parse(localStorage.getItem('groceryLists') || '{}');
+    if (!lists[listName]) lists[listName] = [];
+    const existing = lists[listName].find((pair) => pair[0] === name && pair[2] === unit);
+    if (existing) {
+        existing[1] = Number(existing[1]) + Number(qty);
+    } else {
+        lists[listName].push([name, qty, unit, false]);
+    }
+    localStorage.setItem('groceryLists', JSON.stringify(lists));
+}
+
+function populateGroceryListSelects() {
+    const lists = JSON.parse(localStorage.getItem('groceryLists') || '{}');
+    const keys = Object.keys(lists);
+    document.querySelectorAll('.recipe-grocery-list-select').forEach((sel) => {
+        sel.innerHTML = '<option value="">Select list\u2026</option>';
+        keys.forEach((k) => {
+            const opt = document.createElement('option');
+            opt.value = k;
+            opt.textContent = k;
+            sel.appendChild(opt);
+        });
+    });
+}
+
+function renderIngredientsList(containerId, ingredients) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = '';
+    const list = normalizeStoredIngredients(ingredients);
+    list.forEach((item) => {
+        const el2 = createIngredientDisplayItem(item);
+        if (el2) el.appendChild(el2);
+    });
+}
+
+function ingredientsListFromContainer(containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return [];
+    const out = [];
+    el.querySelectorAll('.recipe-ingredient-item').forEach((item) => {
+        const name = item.dataset.name ?? '';
+        if (!name) return;
+        const quantity = Number(item.dataset.qty) || 1;
+        const unit = item.dataset.unit ?? 'count';
+        const entry = coalesceIngredientEntry({ name, quantity, unit });
+        if (entry) out.push(entry);
+    });
+    return out;
+}
+
+function setupIngredientListControls(formEl, listId, addBtnId) {
+    document.getElementById(addBtnId)?.addEventListener('click', () => {
+        const list = document.getElementById(listId);
+        if (!list) return;
+        const wrap = list.closest('.recipe-ingredients-wrap');
+        const inputArea = wrap?.querySelector('.recipe-ingredient-input-area');
+        if (!inputArea) return;
+        const nameIn = inputArea.querySelector('.recipe-ingredient-name');
+        const qtyIn = inputArea.querySelector('.recipe-ingredient-qty');
+        const sel = inputArea.querySelector('.recipe-ingredient-unit');
+        const name = nameIn?.value.trim() ?? '';
+        if (!name) return;
+        const n = Number(qtyIn?.value);
+        const quantity = Number.isFinite(n) && n >= 0 ? n : 1;
+        const unit = sel?.value ?? 'count';
+        const entry = coalesceIngredientEntry({ name, quantity, unit });
+        if (entry) {
+            const el = createIngredientDisplayItem(entry);
+            if (el) list.appendChild(el);
+        }
+        if (nameIn) nameIn.value = '';
+        if (qtyIn) qtyIn.value = '1';
+        if (sel) sel.selectedIndex = 0;
+        nameIn?.focus();
+    });
+
+    formEl?.addEventListener('click', (e) => {
+        const rmBtn = e.target.closest('.recipe-ingredient-remove');
+        if (rmBtn) {
+            rmBtn.closest('.recipe-ingredient-item')?.remove();
+            return;
+        }
+        const groceryBtn = e.target.closest('.recipe-add-to-grocery-btn');
+        if (groceryBtn) {
+            const wrap = groceryBtn.closest('.recipe-ingredients-wrap');
+            const listEl = document.getElementById(listId);
+            const selectEl = wrap?.querySelector('.recipe-grocery-list-select');
+            const listName = selectEl?.value;
+            if (!listName) return;
+            const selected = listEl?.querySelectorAll('.recipe-ingredient-item.recipe-ingredient-selected') ?? [];
+            if (!selected.length) return;
+            selected.forEach((item) => {
+                mergeOrAppendItem(listName, item.dataset.name, Number(item.dataset.qty) || 1, item.dataset.unit || 'count');
+                item.classList.remove('recipe-ingredient-selected');
+            });
+        }
+    });
+}
+
+function mapRecipeForRead(raw) {
+    if (!raw || typeof raw !== 'object') return raw;
+    return {
+        ...raw,
+        ingredients: normalizeStoredIngredients(raw.ingredients)
+    };
+}
+
 /** In-memory only; reset on full page reload. */
 let appliedRecipeFilters = {
     excludeAllergens: [],
@@ -156,9 +349,10 @@ function getRecipesArray() {
     if (raw == null || raw === '') return [];
     try {
         const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) return parsed;
-        if (parsed !== null && typeof parsed === 'object') return [parsed];
-        return [];
+        let list = [];
+        if (Array.isArray(parsed)) list = parsed;
+        else if (parsed !== null && typeof parsed === 'object') list = [parsed];
+        return list.map((item) => mapRecipeForRead(item));
     } catch {
         return [];
     }
@@ -192,6 +386,8 @@ clearRecipesBtn.addEventListener('click', () => {
 addItemBtn.addEventListener('click', () => {
     closeEditItem();
     closeFilterRecipesModal();
+    renderIngredientsList('toAddIngredientsList', []);
+    populateGroceryListSelects();
     fadeAndAddItem.classList.remove('hidden');
     hideRequireNameError();
     requestAnimationFrame(() => toAddNameInput.focus());
@@ -275,6 +471,9 @@ function clearAllRecipeFilters() {
 cancelBtn.addEventListener('click', closeAddItem);
 cancelEditBtn.addEventListener('click', closeEditItem);
 
+setupIngredientListControls(form, 'toAddIngredientsList', 'addRecipeIngredientRowBtn');
+setupIngredientListControls(editItemForm, 'toEditIngredientsList', 'addEditRecipeIngredientRowBtn');
+
 if (filterRecipeForm) {
     filterRecipeForm.addEventListener('submit', (e) => e.preventDefault());
 }
@@ -327,7 +526,7 @@ function readRecipeFromAddForm() {
     return {
         name: document.getElementById('toAddName').value.trim(),
         description: document.getElementById('toAddDescription').value,
-        ingredients: document.getElementById('toAddIngredients').value,
+        ingredients: ingredientsListFromContainer('toAddIngredientsList'),
         steps: document.getElementById('toAddSteps').value,
         allergens: getOrderedChecklistSelection('toAddAllergensChecklist', ALLERGEN_ORDER),
         diets: getOrderedChecklistSelection('toAddDietsChecklist', DIET_ORDER),
@@ -339,7 +538,7 @@ function readRecipeFromEditForm() {
     return {
         name: document.getElementById('toEditName').value.trim(),
         description: document.getElementById('toEditDescription').value,
-        ingredients: document.getElementById('toEditIngredients').value,
+        ingredients: ingredientsListFromContainer('toEditIngredientsList'),
         steps: document.getElementById('toEditSteps').value,
         allergens: getOrderedChecklistSelection('toEditAllergensChecklist', ALLERGEN_ORDER),
         diets: getOrderedChecklistSelection('toEditDietsChecklist', DIET_ORDER),
@@ -354,7 +553,8 @@ function openEditModal(rowIndex) {
     editingRowIndex = rowIndex;
     document.getElementById('toEditName').value = item.name ?? '';
     document.getElementById('toEditDescription').value = item.description ?? '';
-    document.getElementById('toEditIngredients').value = item.ingredients ?? '';
+    renderIngredientsList('toEditIngredientsList', item.ingredients);
+    populateGroceryListSelects();
     document.getElementById('toEditSteps').value = item.steps ?? '';
     setChecklistFromStoredArray('toEditAllergensChecklist', item.allergens, ALLERGEN_ORDER);
     setChecklistFromStoredArray('toEditDietsChecklist', item.diets, DIET_ORDER);
@@ -418,6 +618,7 @@ function addRecipe() {
 
     displayData();
     form.reset();
+    renderIngredientsList('toAddIngredientsList', []);
     closeAddItem();
 }
 
